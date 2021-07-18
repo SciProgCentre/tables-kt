@@ -1,0 +1,10 @@
+# Project exclude paths
+
+.idea/
+*.iws
+out/
+.gradle
+build/
+
+
+!gradle-wrapper.jar
