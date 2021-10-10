@@ -12,7 +12,7 @@ public value class MapRow<C : Any>(private val values: Map<String, C?>) : Row<C>
 
 internal class RowTableColumn<T : Any, R : T>(val table: Table<T>, val header: ColumnHeader<R>) : Column<R> {
     init {
-        require(header in table.headers){"Header $header does not belong to $table"}
+        require(header in table.headers) { "Header $header does not belong to $table" }
     }
 
     override val name: String get() = header.name
@@ -21,12 +21,14 @@ internal class RowTableColumn<T : Any, R : T>(val table: Table<T>, val header: C
     override val size: Int get() = table.rows.size
 
     @Suppress("UNCHECKED_CAST")
-    override fun get(index: Int): R? = table[index, name]?.let { it as R}
+    override fun get(index: Int): R? = table[index, name]?.let { it as R }
 }
 
-public open class RowTable<C : Any>(override val rows: List<Row<C>>, override val headers: List<ColumnHeader<C>>) :
-    Table<C> {
-    override fun get(row: Int, column: String): C? = rows[row].get(column)
+public open class RowTable<C : Any>(
+    override val rows: List<Row<C>>,
+    override val headers: List<ColumnHeader<C>>
+) : Table<C> {
+    override fun get(row: Int, column: String): C? = rows[row][column]
 
     override val columns: List<Column<C>> get() = headers.map { RowTableColumn(this, it) }
 }

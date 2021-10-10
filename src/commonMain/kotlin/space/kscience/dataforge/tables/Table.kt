@@ -31,7 +31,6 @@ public interface Table<out T : Any> : Rows<T> {
 
 public operator fun <T : Any> Collection<Column<T>>.get(name: String): Column<T>? = find { it.name == name }
 
-
 public inline operator fun <T : Any, reified R : T> Table<T>.get(row: Int, column: ColumnHeader<R>): R? {
     require(headers.contains(column)) { "Column $column is not in table headers" }
     return get(row, column.name) as? R

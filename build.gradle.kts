@@ -9,10 +9,10 @@ allprojects {
         mavenLocal()
     }
     group = "space.kscience"
-    version = "0.1.0"
+    version = "0.1.1-dev-1"
 }
 
-val dataforgeVersion = "0.5.0"
+val dataforgeVersion = "0.5.2-dev-1"
 
 kotlin {
     sourceSets {
