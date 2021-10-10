@@ -5,7 +5,7 @@ import kotlin.reflect.KType
 import kotlin.reflect.typeOf
 
 
-public class RealColumn(
+public class DoubleColumn(
     override val name: String,
     public val data: DoubleArray,
     override val meta: Meta = Meta.EMPTY
@@ -19,7 +19,7 @@ public class RealColumn(
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (other !is RealColumn) return false
+        if (other !is DoubleColumn) return false
 
         if (name != other.name) return false
         if (!data.contentEquals(other.data)) return false
@@ -40,7 +40,7 @@ public class RealColumn(
             name: String,
             data: DoubleArray,
             noinline metaBuilder: ColumnScheme.() -> Unit
-        ): RealColumn = RealColumn(name, data, ColumnScheme(metaBuilder).toMeta())
+        ): DoubleColumn = DoubleColumn(name, data, ColumnScheme(metaBuilder).toMeta())
     }
 }
 

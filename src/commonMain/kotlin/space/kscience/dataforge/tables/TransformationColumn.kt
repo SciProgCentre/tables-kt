@@ -54,9 +54,9 @@ public fun <T : Any> Table<T>.mapRowsToDouble(
     name: String,
     meta: Meta = Meta.EMPTY,
     block: (Row<T>) -> Double,
-): RealColumn {
+): DoubleColumn {
     val data = DoubleArray(rows.size) { block(rows[it]) }
-    return RealColumn(name, data, meta)
+    return DoubleColumn(name, data, meta)
 }
 
 public fun <T : Any> Table<T>.mapRowsToInt(name: String, meta: Meta = Meta.EMPTY, block: (Row<T>) -> Int): IntColumn {

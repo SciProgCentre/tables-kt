@@ -14,4 +14,6 @@ public open class ColumnScheme : Scheme() {
 
 public class ValueColumnScheme : ColumnScheme() {
     public var valueType: ValueType by enum(ValueType.STRING)
+
+    public companion object : SchemeSpec<ValueColumnScheme>(::ValueColumnScheme)
 }

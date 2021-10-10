@@ -6,6 +6,8 @@ import kotlinx.coroutines.flow.*
 import space.kscience.dataforge.io.Binary
 import space.kscience.dataforge.io.readSafeUtf8Line
 import space.kscience.dataforge.io.writeUtf8String
+import space.kscience.dataforge.meta.get
+import space.kscience.dataforge.meta.int
 import space.kscience.dataforge.tables.*
 import space.kscience.dataforge.values.*
 
@@ -133,6 +135,16 @@ private fun Output.writeValue(value: Value, width: Int, left: Boolean = true) {
     }
     writeUtf8String(padded)
 }
+
+public val ColumnHeader<Value>.textWidth: Int
+    get() = meta["columnWidth"].int ?: when (valueType) {
+        ValueType.NUMBER -> 8
+        ValueType.STRING -> 16
+        ValueType.BOOLEAN -> 5
+        ValueType.NULL -> 5
+        ValueType.LIST -> 32
+        null -> 16
+    }
 
 /**
  * Write rows without header to the output
