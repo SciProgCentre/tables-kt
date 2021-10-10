@@ -5,6 +5,7 @@ plugins {
 }
 
 allprojects {
+    apply(plugin = "maven-publish")
     repositories{
         mavenLocal()
     }
