@@ -65,8 +65,8 @@ public class ExposedRow<T : Any>(
     public val db: Database,
     public val sqlTable: IntIdTable,
     public val sqlRow: ResultRow,
-) :
-    Row<T> {
+) : Row<T> {
+
     /**
      * Acquires the value of [column] in this row.
      */
@@ -88,8 +88,12 @@ public class ExposedRow<T : Any>(
  * @property type The type of [T].
  */
 @Suppress("UNCHECKED_CAST")
-public class ExposedTable<T : Any>(public val db: Database, public val sqlTable: IntIdTable, public val type: KType) :
-    Table<T> {
+public class ExposedTable<T : Any>(
+    public val db: Database,
+    public val sqlTable: IntIdTable,
+    public val type: KType
+) : Table<T> {
+
     /**
      * The list of columns in this table.
      */
@@ -120,8 +124,10 @@ public class ExposedTable<T : Any>(public val db: Database, public val sqlTable:
  * @param sqlTable The Exposed table, which must follow the properties defined for [ExposedTable.sqlTable].
  * @return A new [ExposedTable].
  */
-public inline fun <reified T : Any> ExposedTable(db: Database, sqlTable: IntIdTable): ExposedTable<T> =
-    ExposedTable(db, sqlTable, typeOf<T>())
+public inline fun <reified T : Any> ExposedTable(
+    db: Database,
+    sqlTable: IntIdTable
+): ExposedTable<T> = ExposedTable(db, sqlTable, typeOf<T>())
 
 /**
  * Constructs [ExposedTable].
@@ -139,6 +145,7 @@ public inline fun <reified T : Any> ExposedTable(
     columns: List<String>,
     sqlColumnType: IColumnType,
 ): ExposedTable<T> {
+
     val table = object : IntIdTable(tableName) {
         init {
             columns.forEach { registerColumn<T>(it, sqlColumnType) }

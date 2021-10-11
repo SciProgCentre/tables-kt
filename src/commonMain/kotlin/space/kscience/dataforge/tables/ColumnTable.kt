@@ -17,7 +17,7 @@ public class ColumnTable<T : Any>(override val columns: Collection<Column<T>>) :
 }
 
 internal class VirtualRow<T : Any>(val table: Table<T>, val index: Int) : Row<T> {
-    override fun get(column: String): T? = table.get(index, column)
+    override fun get(column: String): T? = table[index, column]
 
 //    override fun <T : C> get(columnHeader: ColumnHeader<T>): T? {
 //        return table.co[columnHeader][index]

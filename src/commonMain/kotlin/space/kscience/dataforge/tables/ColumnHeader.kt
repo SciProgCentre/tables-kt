@@ -5,6 +5,7 @@ import space.kscience.dataforge.meta.get
 import space.kscience.dataforge.meta.string
 import space.kscience.dataforge.values.Value
 import space.kscience.dataforge.values.ValueType
+import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KType
 import kotlin.reflect.typeOf
 
@@ -25,12 +26,27 @@ public interface ColumnHeader<out T> {
             name, typeOf<T>(), ColumnScheme(builder).meta
         )
 
+        /**
+         * A delegated builder for typed column header
+         */
+        public inline fun <reified T> typed(
+            crossinline builder: ColumnScheme.() -> Unit
+        ): ReadOnlyProperty<Any?, ColumnHeader<T>> = ReadOnlyProperty { _, property ->
+            forType(property.name, builder)
+        }
+
         public fun forValue(
             name: String,
             builder: ValueColumnScheme.() -> Unit = {}
         ): ColumnHeader<Value> = SimpleColumnHeader(
             name, typeOf<Value>(), ValueColumnScheme(builder).meta
         )
+
+        public fun value(
+            builder: ValueColumnScheme.() -> Unit = {}
+        ): ReadOnlyProperty<Any?, ColumnHeader<Value>> = ReadOnlyProperty { _, property ->
+            forValue(property.name, builder)
+        }
     }
 }
 

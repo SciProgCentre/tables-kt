@@ -24,6 +24,9 @@ internal class RowTableColumn<T : Any, R : T>(val table: Table<T>, val header: C
     override fun get(index: Int): R? = table[index, name]?.let { it as R }
 }
 
+/**
+ * A row-based table
+ */
 public open class RowTable<C : Any>(
     override val rows: List<Row<C>>,
     override val headers: List<ColumnHeader<C>>

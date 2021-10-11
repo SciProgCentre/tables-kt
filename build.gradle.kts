@@ -13,7 +13,7 @@ allprojects {
     version = "0.1.1-dev-1"
 }
 
-val dataforgeVersion = "0.5.2-dev-1"
+val dataforgeVersion = "0.5.2-dev-2"
 
 kotlin {
     sourceSets {
