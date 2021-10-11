@@ -37,15 +37,20 @@ public interface ColumnHeader<out T> {
 
         public fun forValue(
             name: String,
+            valueType: ValueType,
             builder: ValueColumnScheme.() -> Unit = {}
         ): ColumnHeader<Value> = SimpleColumnHeader(
-            name, typeOf<Value>(), ValueColumnScheme(builder).meta
+            name, typeOf<Value>(), ValueColumnScheme {
+                this.valueType = valueType
+                builder()
+            }.meta
         )
 
         public fun value(
+            valueType: ValueType,
             builder: ValueColumnScheme.() -> Unit = {}
         ): ReadOnlyProperty<Any?, ColumnHeader<Value>> = ReadOnlyProperty { _, property ->
-            forValue(property.name, builder)
+            forValue(property.name, valueType, builder)
         }
     }
 }
