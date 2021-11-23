@@ -7,30 +7,39 @@ import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KType
 import kotlin.reflect.typeOf
 
-public class MutableTable<C : Any>(
+public class MutableRowTable<C>(
     override val rows: MutableList<Row<C>>,
     override val headers: MutableList<ColumnHeader<C>>,
 ) : RowTable<C>(rows, headers) {
 
+    public fun <T : C> addColumn(header: ColumnHeader<C>) {
+        headers.add(header)
+    }
+
     @PublishedApi
-    internal fun <T : C> addColumn(name: String, type: KType, meta: Meta): ColumnHeader<T> {
+    internal fun <T : C> newColumn(name: String, type: KType, meta: Meta): ColumnHeader<T> {
         val column = SimpleColumnHeader<T>(name, type, meta)
         headers.add(column)
         return column
     }
 
-    public inline fun <reified T : C> addColumn(
+    public inline fun <reified T : C> newColumn(
         name: String,
         noinline columnMetaBuilder: ColumnScheme.() -> Unit = {},
-    ): ColumnHeader<T> = addColumn(name, typeOf<T>(), ColumnScheme(columnMetaBuilder).toMeta())
+    ): ColumnHeader<T> = newColumn(name, typeOf<T>(), ColumnScheme(columnMetaBuilder).toMeta())
 
     public inline fun <reified T : C> column(
-        noinline columnMetaBuilder: ColumnScheme.() -> Unit = {}
+        noinline columnMetaBuilder: ColumnScheme.() -> Unit = {},
     ): PropertyDelegateProvider<Any?, ReadOnlyProperty<Any?, ColumnHeader<T>>> =
         PropertyDelegateProvider { _, property ->
-            val res = addColumn<T>(property.name, columnMetaBuilder)
+            val res = newColumn<T>(property.name, columnMetaBuilder)
             ReadOnlyProperty { _, _ -> res }
         }
+
+    public fun addRow(row: Row<C>): Row<C> {
+        rows.add(row)
+        return row
+    }
 
     public fun row(map: Map<String, C?>): Row<C> {
         val row = MapRow(map)
@@ -38,13 +47,12 @@ public class MutableTable<C : Any>(
         return row
     }
 
-    public fun <T : C> row(vararg pairs: Pair<ColumnHeader<T>, T>): Row<C> =
-        row(pairs.associate { it.first.name to it.second })
+    public fun <T : C> row(vararg pairs: Pair<ColumnHeader<T>, T>): Row<C> = addRow(Row(*pairs))
 }
 
-public fun MutableTable<Value>.row(vararg pairs: Pair<ColumnHeader<Value>, Any?>): Row<Value> =
+public fun MutableRowTable<Value>.valueRow(vararg pairs: Pair<ColumnHeader<Value>, Any?>): Row<Value> =
     row(pairs.associate { it.first.name to Value.of(it.second) })
 
-public fun <C : Any> Table<C>.edit(block: MutableTable<C>.() -> Unit): Table<C> {
-    return MutableTable(rows.toMutableList(), headers.toMutableList()).apply(block)
+public fun <C> Table<C>.edit(block: MutableRowTable<C>.() -> Unit): Table<C> {
+    return MutableRowTable(rows.toMutableList(), headers.toMutableList()).apply(block)
 }

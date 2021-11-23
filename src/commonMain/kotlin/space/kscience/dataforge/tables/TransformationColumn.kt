@@ -7,7 +7,7 @@ import kotlin.reflect.typeOf
 /**
  * A virtual column obtained by transforming Given row to a single value
  */
-public class TransformationColumn<T : Any, R : Any>(
+public class TransformationColumn<T, R : Any>(
     public val table: Table<T>,
     override val type: KType,
     override val name: String,
@@ -24,7 +24,7 @@ public class TransformationColumn<T : Any, R : Any>(
  *
  * Calls are not thread safe
  */
-public class CachedTransformationColumn<T : Any, R : Any>(
+public class CachedTransformationColumn<T, R : Any>(
     public val table: Table<T>,
     override val type: KType,
     override val name: String,
@@ -39,7 +39,7 @@ public class CachedTransformationColumn<T : Any, R : Any>(
 /**
  * Create a virtual column from a given column
  */
-public inline fun <T : Any, reified R : Any> Table<T>.mapRows(
+public inline fun <T, reified R : Any> Table<T>.mapRows(
     name: String,
     meta: Meta = Meta.EMPTY,
     cache: Boolean = false,
@@ -50,7 +50,7 @@ public inline fun <T : Any, reified R : Any> Table<T>.mapRows(
     TransformationColumn(this, typeOf<R>(), name, meta, mapper)
 }
 
-public fun <T : Any> Table<T>.mapRowsToDouble(
+public fun <T> Table<T>.mapRowsToDouble(
     name: String,
     meta: Meta = Meta.EMPTY,
     block: (Row<T>) -> Double,
@@ -59,7 +59,7 @@ public fun <T : Any> Table<T>.mapRowsToDouble(
     return DoubleColumn(name, data, meta)
 }
 
-public fun <T : Any> Table<T>.mapRowsToInt(name: String, meta: Meta = Meta.EMPTY, block: (Row<T>) -> Int): IntColumn {
+public fun <T> Table<T>.mapRowsToInt(name: String, meta: Meta = Meta.EMPTY, block: (Row<T>) -> Int): IntColumn {
     val data = IntArray(rows.size) { block(rows[it]) }
     return IntColumn(name, data, meta)
 }

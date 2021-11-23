@@ -5,7 +5,7 @@ import kotlinx.coroutines.runBlocking
 import space.kscience.dataforge.io.toByteArray
 import space.kscience.dataforge.misc.DFExperimental
 import space.kscience.dataforge.tables.RowTable
-import space.kscience.dataforge.tables.row
+import space.kscience.dataforge.tables.valueRow
 import space.kscience.dataforge.values.Value
 import space.kscience.dataforge.values.int
 import space.kscience.dataforge.values.string
@@ -18,8 +18,8 @@ class TextRowsTest {
     val table = RowTable<Value> {
         val a by column<Value>()
         val b by column<Value>()
-        row(a to 1, b to "b1")
-        row(a to 2, b to "b2")
+        valueRow(a to 1, b to "b1")
+        valueRow(a to 2, b to "b2")
     }
 
     @Test

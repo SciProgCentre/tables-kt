@@ -3,7 +3,7 @@ package space.kscience.dataforge.tables
 /**
  * Mutable table with a fixed size, but dynamic columns
  */
-public class MutableColumnTable<C: Any>(public val size: Int) : Table<C> {
+public class MutableColumnTable<C>(public val size: Int) : Table<C> {
     private val _columns = ArrayList<Column<C>>()
 
     override val columns: List<Column<C>> get() = _columns

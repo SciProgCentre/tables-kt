@@ -3,7 +3,7 @@ package space.kscience.dataforge.tables
 /**
  * @param T boundary type for all columns in the table
  */
-public class ColumnTable<T : Any>(override val columns: Collection<Column<T>>) : Table<T> {
+public class ColumnTable<T>(override val columns: Collection<Column<T>>) : Table<T> {
     private val rowsNum = columns.first().size
 
     init {
@@ -16,7 +16,7 @@ public class ColumnTable<T : Any>(override val columns: Collection<Column<T>>) :
     override fun get(row: Int, column: String): T? = columns[column]?.get(row)
 }
 
-internal class VirtualRow<T : Any>(val table: Table<T>, val index: Int) : Row<T> {
+internal class VirtualRow<T>(val table: Table<T>, val index: Int) : Row<T> {
     override fun get(column: String): T? = table[index, column]
 
 //    override fun <T : C> get(columnHeader: ColumnHeader<T>): T? {

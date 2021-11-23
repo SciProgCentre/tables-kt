@@ -4,7 +4,7 @@ import space.kscience.dataforge.meta.Meta
 import kotlin.reflect.KType
 import kotlin.reflect.typeOf
 
-public class ListColumn<T : Any>(
+public class ListColumn<T>(
     override val name: String,
     private val data: List<T?>,
     override val type: KType,
@@ -30,7 +30,7 @@ public class ListColumn<T : Any>(
     }
 }
 
-public inline fun <T : Any, reified R : Any> Column<T>.map(meta: Meta = this.meta, noinline block: (T?) -> R): Column<R> {
+public inline fun <T, reified R : Any> Column<T>.map(meta: Meta = this.meta, noinline block: (T?) -> R): Column<R> {
     val data = List(size) { block(get(it)) }
     return ListColumn(name, data, typeOf<R>(), meta)
 }

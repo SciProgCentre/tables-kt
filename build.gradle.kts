@@ -10,7 +10,7 @@ allprojects {
         mavenLocal()
     }
     group = "space.kscience"
-    version = "0.1.1-dev-1"
+    version = "0.1.1-dev-2"
 }
 
 val dataforgeVersion = "0.5.2-dev-2"

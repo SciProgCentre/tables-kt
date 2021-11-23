@@ -7,12 +7,12 @@ import kotlinx.coroutines.flow.asFlow
  * Finite or infinite row set. Rows are produced in a lazy suspendable [Flow].
  * Each row must contain at least all the fields mentioned in [headers].
  */
-public interface Rows<out T : Any> {
+public interface Rows<out T> {
     public val headers: TableHeader<T>
     public fun rowFlow(): Flow<Row<T>>
 }
 
-public interface Table<out T : Any> : Rows<T> {
+public interface Table<out T> : Rows<T> {
     public operator fun get(row: Int, column: String): T?
     public val columns: Collection<Column<T>>
     override val headers: TableHeader<T> get() = columns.toList()
@@ -26,27 +26,27 @@ public interface Table<out T : Any> : Rows<T> {
     public companion object {    }
 }
 
-public operator fun <T : Any> Collection<Column<T>>.get(name: String): Column<T>? = find { it.name == name }
+public operator fun <T> Collection<Column<T>>.get(name: String): Column<T>? = find { it.name == name }
 
-public inline operator fun <T : Any, reified R : T> Table<T>.get(row: Int, column: ColumnHeader<R>): R? {
+public inline operator fun <T, reified R : T> Table<T>.get(row: Int, column: ColumnHeader<R>): R? {
     require(headers.contains(column)) { "Column $column is not in table headers" }
     return get(row, column.name) as? R
 }
 
-public interface Column<out T : Any> : ColumnHeader<T> {
+public interface Column<out T> : ColumnHeader<T> {
     public val size: Int
     public operator fun get(index: Int): T?
 }
 
 public val Column<*>.indices: IntRange get() = (0 until size)
 
-public operator fun <T : Any> Column<T>.iterator(): Iterator<T?> = iterator {
+public operator fun <T> Column<T>.iterator(): Iterator<T?> = iterator {
     for (i in indices) {
         yield(get(i))
     }
 }
 
-public interface Row<out T : Any> {
+public interface Row<out T> {
     public operator fun get(column: String): T?
 }
 

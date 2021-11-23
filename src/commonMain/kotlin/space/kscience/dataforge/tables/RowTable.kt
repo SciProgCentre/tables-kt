@@ -2,22 +2,35 @@ package space.kscience.dataforge.tables
 
 import kotlinx.coroutines.flow.toList
 import space.kscience.dataforge.meta.Meta
+import space.kscience.dataforge.meta.MetaRepr
 import space.kscience.dataforge.values.Value
 import space.kscience.dataforge.values.getValue
 import kotlin.jvm.JvmInline
 import kotlin.reflect.KType
 
 @JvmInline
-public value class MapRow<C : Any>(public val values: Map<String, C?>) : Row<C> {
+public value class MapRow<C>(public val values: Map<String, C?>) : Row<C> {
     override fun get(column: String): C? = values[column]
 }
+
+/**
+ * Create a [MapRow] using pairs of [ColumnHeader] and values
+ */
+@Suppress("FunctionName")
+public fun <T> Row(vararg pairs: Pair<ColumnHeader<T>, T>): MapRow<T> =
+    MapRow(pairs.associate { it.first.name to it.second })
 
 @JvmInline
 public value class MetaRow(public val meta: Meta) : Row<Value> {
     override fun get(column: String): Value? = meta.getValue(column)
 }
 
-internal class RowTableColumn<T : Any, R : T>(val table: Table<T>, val header: ColumnHeader<R>) : Column<R> {
+/**
+ * Represent [MetaRepr] as a [Row]
+ */
+public fun MetaRepr.asRow(): MetaRow = MetaRow(toMeta())
+
+internal class RowTableColumn<T, R : T>(val table: Table<T>, val header: ColumnHeader<R>) : Column<R> {
     init {
         require(header in table.headers) { "Header $header does not belong to $table" }
     }
@@ -34,9 +47,9 @@ internal class RowTableColumn<T : Any, R : T>(val table: Table<T>, val header: C
 /**
  * A row-based table
  */
-public open class RowTable<C : Any>(
+public open class RowTable<C>(
     override val rows: List<Row<C>>,
-    override val headers: List<ColumnHeader<C>>
+    override val headers: List<ColumnHeader<C>>,
 ) : Table<C> {
     override fun get(row: Int, column: String): C? = rows[row][column]
 
@@ -47,7 +60,7 @@ public open class RowTable<C : Any>(
  * Create Row table with given headers
  */
 @Suppress("FunctionName")
-public inline fun <T : Any> RowTable(vararg headers: ColumnHeader<T>, block: MutableTable<T>.() -> Unit): RowTable<T> =
-    MutableTable<T>(arrayListOf(), headers.toMutableList()).apply(block)
+public inline fun <T> RowTable(vararg headers: ColumnHeader<T>, block: MutableRowTable<T>.() -> Unit): RowTable<T> =
+    MutableRowTable<T>(arrayListOf(), headers.toMutableList()).apply(block)
 
-public suspend fun <C : Any> Rows<C>.collect(): Table<C> = this as? Table<C> ?: RowTable(rowFlow().toList(), headers)
+public suspend fun <C> Rows<C>.collect(): Table<C> = this as? Table<C> ?: RowTable(rowFlow().toList(), headers)
