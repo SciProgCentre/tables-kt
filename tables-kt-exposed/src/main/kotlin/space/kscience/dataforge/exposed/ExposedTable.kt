@@ -6,6 +6,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import space.kscience.dataforge.meta.Meta
 import space.kscience.dataforge.tables.Column
 import space.kscience.dataforge.tables.Row
+import space.kscience.dataforge.tables.RowTable
 import space.kscience.dataforge.tables.Table
 import kotlin.reflect.KType
 import kotlin.reflect.typeOf
@@ -77,7 +78,7 @@ public class ExposedRow<T : Any>(
 }
 
 /**
- * Exposed based [Table] implementation.
+ * Exposed based [RowTable] implementation.
  *
  * @property db The Exposed database.
  *

@@ -23,10 +23,7 @@ public interface Table<out T : Any> : Rows<T> {
      * Apply typed query to this table and return lazy [Flow] of resulting rows. The flow could be empty.
      */
     //fun select(query: Any): Flow<Row> = error("Query of type ${query::class} is not supported by this table")
-    public companion object {
-        public inline operator fun <T : Any> invoke(block: MutableTable<T>.() -> Unit): Table<T> =
-            MutableTable<T>(arrayListOf(), arrayListOf()).apply(block)
-    }
+    public companion object {    }
 }
 
 public operator fun <T : Any> Collection<Column<T>>.get(name: String): Column<T>? = find { it.name == name }

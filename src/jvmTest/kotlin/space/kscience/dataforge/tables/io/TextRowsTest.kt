@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import space.kscience.dataforge.io.toByteArray
 import space.kscience.dataforge.misc.DFExperimental
-import space.kscience.dataforge.tables.Table
+import space.kscience.dataforge.tables.RowTable
 import space.kscience.dataforge.tables.row
 import space.kscience.dataforge.values.Value
 import space.kscience.dataforge.values.int
@@ -15,7 +15,7 @@ import kotlin.test.assertEquals
 
 @DFExperimental
 class TextRowsTest {
-    val table = Table<Value> {
+    val table = RowTable<Value> {
         val a by column<Value>()
         val b by column<Value>()
         row(a to 1, b to "b1")
