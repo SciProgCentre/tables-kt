@@ -1,19 +1,16 @@
 plugins {
     id("ru.mipt.npm.gradle.project")
     id("ru.mipt.npm.gradle.mpp")
-    id("ru.mipt.npm.gradle.native")
+    //id("ru.mipt.npm.gradle.native")
 }
 
 allprojects {
     apply(plugin = "maven-publish")
-    repositories{
-        mavenLocal()
-    }
     group = "space.kscience"
-    version = "0.1.1-dev-1"
+    version = "0.1.1"
 }
 
-val dataforgeVersion = "0.5.2-dev-2"
+val dataforgeVersion = "0.5.2"
 
 kotlin {
     sourceSets {
