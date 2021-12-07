@@ -6,14 +6,11 @@ plugins {
 
 allprojects {
     apply(plugin = "maven-publish")
-    repositories{
-        mavenLocal()
-    }
     group = "space.kscience"
-    version = "0.1.1-dev-2"
+    version = "0.1.1"
 }
 
-val dataforgeVersion = "0.5.2-dev-2"
+val dataforgeVersion = "0.5.2"
 
 kotlin {
     sourceSets {
