@@ -30,9 +30,9 @@ internal class ExposedTableTest {
         }
 
 
-        assertEquals(42, table[0, "a"])
-        assertEquals(3, table[0, "b"])
-        assertEquals(7, table[0, "c"])
+        assertEquals(42, table.getOrNull(0, "a"))
+        assertEquals(3, table.getOrNull(0, "b"))
+        assertEquals(7, table.getOrNull(0, "c"))
         assertEquals(3, table.columns.size)
         table.columns.forEach { assertEquals(1, it.size) }
         assertEquals(1, table.rows.size)

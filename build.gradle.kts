@@ -2,12 +2,12 @@ plugins {
     id("ru.mipt.npm.gradle.project")
     id("ru.mipt.npm.gradle.mpp")
     id("ru.mipt.npm.gradle.native")
+    `maven-publish`
 }
 
 allprojects {
-    apply(plugin = "maven-publish")
     group = "space.kscience"
-    version = "0.1.1"
+    version = "0.1.1-dev-5"
 }
 
 val dataforgeVersion = "0.5.2"
@@ -26,11 +26,11 @@ kotlin {
 }
 
 readme {
-    maturity = ru.mipt.npm.gradle.Maturity.PROTOTYPE
+    maturity = ru.mipt.npm.gradle.Maturity.EXPERIMENTAL
 }
 
 ksciencePublish {
     github("dataforge-core")
     space("https://maven.pkg.jetbrains.space/mipt-npm/p/sci/maven")
-    sonatype()
+    //sonatype()
 }

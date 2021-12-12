@@ -1,4 +1,4 @@
-package space.kscience.dataforge.tables
+package space.kscience.tables
 
 import space.kscience.dataforge.meta.Meta
 import space.kscience.dataforge.values.Value
@@ -53,6 +53,15 @@ public class MutableRowTable<C>(
 public fun MutableRowTable<Value>.valueRow(vararg pairs: Pair<ColumnHeader<Value>, Any?>): Row<Value> =
     row(pairs.associate { it.first.name to Value.of(it.second) })
 
-public fun <C> Table<C>.edit(block: MutableRowTable<C>.() -> Unit): Table<C> {
-    return MutableRowTable(rows.toMutableList(), headers.toMutableList()).apply(block)
-}
+
+/**
+ * Shallow copy table to a new [MutableRowTable]
+ */
+public fun <T> RowTable<T>.toMutableRowTable(): MutableRowTable<T> =
+    MutableRowTable(rows.toMutableList(), headers.toMutableList())
+
+/**
+ * Shallow copy and edit [Table] and edit it as [RowTable]
+ */
+public fun <T> Table<T>.editRows(block: MutableRowTable<T>.() -> Unit): RowTable<T> =
+    MutableRowTable(rows.toMutableList(), headers.toMutableList()).apply(block)

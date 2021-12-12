@@ -1,4 +1,4 @@
-package space.kscience.dataforge.tables
+package space.kscience.tables
 
 import space.kscience.dataforge.meta.Meta
 import kotlin.reflect.KType
@@ -12,7 +12,7 @@ public class ListColumn<T>(
 ) : Column<T> {
     override val size: Int get() = data.size
 
-    override fun get(index: Int): T? = data[index]
+    override fun getOrNull(index: Int): T? = if(index in data.indices) data[index] else null
 
     public companion object {
         public inline operator fun <reified T : Any> invoke(
@@ -31,6 +31,6 @@ public class ListColumn<T>(
 }
 
 public inline fun <T, reified R : Any> Column<T>.map(meta: Meta = this.meta, noinline block: (T?) -> R): Column<R> {
-    val data = List(size) { block(get(it)) }
+    val data = List(size) { block(getOrNull(it)) }
     return ListColumn(name, data, typeOf<R>(), meta)
 }

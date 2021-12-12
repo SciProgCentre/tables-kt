@@ -1,4 +1,4 @@
-package space.kscience.dataforge.tables
+package space.kscience.tables
 
 import space.kscience.dataforge.meta.Meta
 import kotlin.reflect.KType
@@ -15,7 +15,7 @@ public class DoubleColumn(
     override val size: Int get() = data.size
 
     @Suppress("OVERRIDE_BY_INLINE", "NOTHING_TO_INLINE")
-    override inline fun get(index: Int): Double = data[index]
+    override inline fun getOrNull(index: Int): Double = data[index]
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -54,7 +54,7 @@ public class IntColumn(
     override val size: Int get() = data.size
 
     @Suppress("OVERRIDE_BY_INLINE", "NOTHING_TO_INLINE")
-    override inline fun get(index: Int): Int = data[index]
+    override inline fun getOrNull(index: Int): Int = data[index]
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

@@ -1,4 +1,4 @@
-package space.kscience.dataforge.tables
+package space.kscience.tables
 
 import space.kscience.dataforge.meta.Scheme
 import space.kscience.dataforge.meta.SchemeSpec

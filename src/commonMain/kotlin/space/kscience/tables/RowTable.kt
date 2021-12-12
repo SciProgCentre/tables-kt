@@ -1,4 +1,4 @@
-package space.kscience.dataforge.tables
+package space.kscience.tables
 
 import kotlinx.coroutines.flow.toList
 import space.kscience.dataforge.meta.Meta
@@ -10,7 +10,7 @@ import kotlin.reflect.KType
 
 @JvmInline
 public value class MapRow<C>(public val values: Map<String, C?>) : Row<C> {
-    override fun get(column: String): C? = values[column]
+    override fun getOrNull(column: String): C? = values[column]
 }
 
 /**
@@ -22,7 +22,7 @@ public fun <T> Row(vararg pairs: Pair<ColumnHeader<T>, T>): MapRow<T> =
 
 @JvmInline
 public value class MetaRow(public val meta: Meta) : Row<Value> {
-    override fun get(column: String): Value? = meta.getValue(column)
+    override fun getOrNull(column: String): Value? = meta.getValue(column)
 }
 
 /**
@@ -41,7 +41,7 @@ internal class RowTableColumn<T, R : T>(val table: Table<T>, val header: ColumnH
     override val size: Int get() = table.rows.size
 
     @Suppress("UNCHECKED_CAST")
-    override fun get(index: Int): R? = table[index, name]?.let { it as R }
+    override fun getOrNull(index: Int): R? = table.getOrNull(index, name)?.let { it as R }
 }
 
 /**
@@ -51,7 +51,7 @@ public open class RowTable<C>(
     override val rows: List<Row<C>>,
     override val headers: List<ColumnHeader<C>>,
 ) : Table<C> {
-    override fun get(row: Int, column: String): C? = rows[row][column]
+    override fun getOrNull(row: Int, column: String): C? = rows[row].getOrNull(column)
 
     override val columns: List<Column<C>> get() = headers.map { RowTableColumn(this, it) }
 }

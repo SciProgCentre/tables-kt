@@ -1,4 +1,4 @@
-package space.kscience.dataforge.tables
+package space.kscience.tables
 
 import space.kscience.dataforge.meta.Meta
 import kotlin.reflect.KType
@@ -16,7 +16,7 @@ public class TransformationColumn<T, R : Any>(
 ) : Column<R> {
     override val size: Int get() = table.rows.size
 
-    override fun get(index: Int): R? = mapper(table.rows[index])
+    override fun getOrNull(index: Int): R? = mapper(table.rows[index])
 }
 
 /**
@@ -33,7 +33,7 @@ public class CachedTransformationColumn<T, R : Any>(
 ) : Column<R> {
     override val size: Int get() = table.rows.size
     private val values: HashMap<Int, R?> = HashMap()
-    override fun get(index: Int): R? = values.getOrPut(index) { mapper(table.rows[index]) }
+    override fun getOrNull(index: Int): R? = values.getOrPut(index) { mapper(table.rows[index]) }
 }
 
 /**

@@ -1,14 +1,14 @@
-package space.kscience.dataforge.tables.io
+package space.kscience.tables.io
 
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import space.kscience.dataforge.io.toByteArray
 import space.kscience.dataforge.misc.DFExperimental
-import space.kscience.dataforge.tables.RowTable
-import space.kscience.dataforge.tables.valueRow
 import space.kscience.dataforge.values.Value
 import space.kscience.dataforge.values.int
 import space.kscience.dataforge.values.string
+import space.kscience.tables.RowTable
+import space.kscience.tables.valueRow
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -24,12 +24,12 @@ class TextRowsTest {
 
     @Test
     fun testTableWriteRead() = runBlocking {
-        val envelope = table.toEnvelope()
+        val envelope = table.toTextEnvelope()
         val string = envelope.data!!.toByteArray().decodeToString()
         println(string)
-        val table = TextRows.readEnvelope(envelope)
+        val table = envelope.readTextRows()
         val rows = table.rowFlow().toList()
-        assertEquals(1, rows[0]["a"]?.int)
-        assertEquals("b2", rows[1]["b"]?.string)
+        assertEquals(1, rows[0].getOrNull("a")?.int)
+        assertEquals("b2", rows[1].getOrNull("b")?.string)
     }
 }

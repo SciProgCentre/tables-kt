@@ -4,10 +4,10 @@ import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 import space.kscience.dataforge.meta.Meta
-import space.kscience.dataforge.tables.Column
-import space.kscience.dataforge.tables.Row
-import space.kscience.dataforge.tables.RowTable
-import space.kscience.dataforge.tables.Table
+import space.kscience.tables.Column
+import space.kscience.tables.Row
+import space.kscience.tables.RowTable
+import space.kscience.tables.Table
 import kotlin.reflect.KType
 import kotlin.reflect.typeOf
 import org.jetbrains.exposed.sql.Column as SqlColumn
@@ -48,7 +48,7 @@ public class ExposedColumn<T : Any>(
     /**
      * Acquires the value of this column in the row [index].
      */
-    public override fun get(index: Int): T? = transaction(db) {
+    public override fun getOrNull(index: Int): T? = transaction(db) {
         sqlTable.select { sqlTable.id eq index + 1 }.firstOrNull()?.getOrNull(sqlColumn)
     }
 }
@@ -71,7 +71,7 @@ public class ExposedRow<T : Any>(
     /**
      * Acquires the value of [column] in this row.
      */
-    public override fun get(column: String): T? = transaction(db) {
+    public override fun getOrNull(column: String): T? = transaction(db) {
         val theColumn = sqlTable.columns.find { it.name == column } as SqlColumn<T>? ?: return@transaction null
         sqlRow.getOrNull(theColumn)
     }
@@ -109,7 +109,7 @@ public class ExposedTable<T : Any>(
             sqlTable.selectAll().map { ExposedRow(db, sqlTable, it) }
         }
 
-    public override operator fun get(row: Int, column: String): T? = transaction(db) {
+    public override fun getOrNull(row: Int, column: String): T? = transaction(db) {
         val sqlColumn: SqlColumn<T> = sqlTable.columns.find { it.name == column } as SqlColumn<T>?
             ?: return@transaction null
 

@@ -1,4 +1,4 @@
-package space.kscience.dataforge.tables
+package space.kscience.tables
 
 import space.kscience.dataforge.meta.Meta
 import kotlin.properties.ReadOnlyProperty
@@ -21,7 +21,7 @@ private class CastColumn<T : Any>(private val origin: Column<*>, override val ty
     override val size: Int get() = origin.size
 
     @Suppress("UNCHECKED_CAST")
-    override fun get(index: Int): T? = origin[index]?.let {
+    override fun getOrNull(index: Int): T? = origin.getOrNull(index)?.let {
         it as T
     }
 }

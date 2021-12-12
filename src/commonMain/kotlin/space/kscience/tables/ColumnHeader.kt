@@ -1,4 +1,4 @@
-package space.kscience.dataforge.tables
+package space.kscience.tables
 
 import space.kscience.dataforge.meta.Meta
 import space.kscience.dataforge.meta.get
@@ -47,7 +47,7 @@ public interface ColumnHeader<out T> {
         )
 
         public fun value(
-            valueType: ValueType,
+            valueType: ValueType = ValueType.STRING,
             builder: ValueColumnScheme.() -> Unit = {}
         ): ReadOnlyProperty<Any?, ColumnHeader<Value>> = ReadOnlyProperty { _, property ->
             forValue(property.name, valueType, builder)

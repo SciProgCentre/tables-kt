@@ -1,8 +1,9 @@
 plugins {
     id("ru.mipt.npm.gradle.jvm")
+    `maven-publish`
 }
 
-val exposedVersion = "0.35.1"
+val exposedVersion = "0.36.1"
 
 dependencies {
     api("org.jetbrains.exposed:exposed-core:$exposedVersion")
@@ -13,5 +14,5 @@ dependencies {
 }
 
 readme {
-    maturity = ru.mipt.npm.gradle.Maturity.PROTOTYPE
+    maturity = ru.mipt.npm.gradle.Maturity.EXPERIMENTAL
 }
