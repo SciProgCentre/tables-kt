@@ -7,7 +7,7 @@ plugins {
 
 allprojects {
     group = "space.kscience"
-    version = "0.1.1-dev-5"
+    version = "0.1.1"
 }
 
 val dataforgeVersion = "0.5.2"
