@@ -42,5 +42,6 @@ dependencyResolutionManagement {
 include(
     ":tables-kt-exposed",
     ":tables-kt-dataframe",
-    ":tables-kt-jupyter"
+    ":tables-kt-jupyter",
+    ":tables-kt-csv"
 )

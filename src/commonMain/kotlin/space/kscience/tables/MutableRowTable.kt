@@ -53,6 +53,14 @@ public class MutableRowTable<C>(
 public fun MutableRowTable<Value>.valueRow(vararg pairs: Pair<ColumnHeader<Value>, Any?>): Row<Value> =
     row(pairs.associate { it.first.name to Value.of(it.second) })
 
+/**
+ * Add a row represented by Meta
+ */
+public fun MutableRowTable<Value>.row(meta: Meta): Row<Value> {
+    val row = MetaRow(meta)
+    rows.add(row)
+    return row
+}
 
 /**
  * Shallow copy table to a new [MutableRowTable]
