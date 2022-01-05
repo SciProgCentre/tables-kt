@@ -22,7 +22,7 @@ internal class TextTable(
 
     override val rows: List<Row<Value>> get() = index.map { readAt(it) }
 
-    override fun rowFlow(): Flow<Row<Value>> = TextRows(headers, binary).rowFlow()
+    override fun rowSequence(): Sequence<Row<Value>> = TextRows(headers, binary).rowSequence()
 
     private fun readAt(offset: Int): Row<Value> {
         return binary.read(offset) {

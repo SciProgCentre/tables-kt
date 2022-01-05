@@ -1,8 +1,5 @@
 package space.kscience.tables.csv
 
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.map
 import org.apache.commons.csv.CSVRecord
 import space.kscience.dataforge.values.Value
 import space.kscience.dataforge.values.ValueType
@@ -20,5 +17,5 @@ internal class CsvRow(val record: CSVRecord) : Row<Value> {
 public class CsvRows(private val rowsProvider: Iterable<CSVRecord>, private val names: List<String>) : Rows<Value> {
     override val headers: TableHeader<Value> get() = names.map { ColumnHeader(it, ValueType.STRING) }
 
-    override fun rowFlow(): Flow<Row<Value>> = rowsProvider.asFlow().map(::CsvRow)
+    override fun rowSequence(): Sequence<Row<Value>> = rowsProvider.asSequence().map(::CsvRow)
 }

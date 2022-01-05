@@ -1,7 +1,6 @@
 package space.kscience.tables.io
 
 import io.ktor.utils.io.core.Output
-import kotlinx.coroutines.flow.collect
 import space.kscience.dataforge.io.writeUtf8String
 import space.kscience.dataforge.meta.get
 import space.kscience.dataforge.meta.int
@@ -47,11 +46,11 @@ public val ColumnHeader<Value>.textWidth: Int
 /**
  * Write TSV (or in more general case use [separator]) rows without header to the output.
  */
-public suspend fun Output.writeTextRows(rows: Rows<Value>, separator: String = "\t") {
+public fun Output.writeTextRows(rows: Rows<Value>, separator: String = "\t") {
     val widths: List<Int> = rows.headers.map {
         it.textWidth
     }
-    rows.rowFlow().collect { row ->
+    rows.rowSequence().forEach { row ->
         rows.headers.forEachIndexed { index, columnHeader ->
             writeValue(row[columnHeader] ?: Null, widths[index])
             writeUtf8String(separator)

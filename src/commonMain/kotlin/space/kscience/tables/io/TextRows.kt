@@ -1,8 +1,6 @@
 package space.kscience.tables.io
 
 import io.ktor.utils.io.core.readBytes
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
 import space.kscience.dataforge.io.Binary
 import space.kscience.dataforge.values.Value
 import space.kscience.dataforge.values.lazyParseValue
@@ -30,12 +28,12 @@ internal fun String.readRow(header: ValueTableHeader): Row<Value> {
  */
 internal class TextRows(override val headers: ValueTableHeader, private val binary: Binary) : Rows<Value> {
 
-    override fun rowFlow(): Flow<Row<Value>> = binary.read {
+    override fun rowSequence(): Sequence<Row<Value>> = binary.read {
         val text = readBytes().decodeToString()
         text.lineSequence()
             .map { it.trim() }
             .filter { it.isNotEmpty() }
-            .map { it.readRow(headers) }.asFlow()
+            .map { it.readRow(headers) }
 //        flow {
 //            do {
 //                val line = readUTF8Line()

@@ -1,6 +1,5 @@
 package space.kscience.tables
 
-import kotlinx.coroutines.flow.toList
 import space.kscience.dataforge.meta.Meta
 import space.kscience.dataforge.meta.MetaRepr
 import space.kscience.dataforge.values.Value
@@ -63,4 +62,4 @@ public open class RowTable<C>(
 public inline fun <T> RowTable(vararg headers: ColumnHeader<T>, block: MutableRowTable<T>.() -> Unit): RowTable<T> =
     MutableRowTable<T>(arrayListOf(), headers.toMutableList()).apply(block)
 
-public suspend fun <C> Rows<C>.collect(): Table<C> = this as? Table<C> ?: RowTable(rowFlow().toList(), headers)
+public suspend fun <C> Rows<C>.collect(): Table<C> = this as? Table<C> ?: RowTable(rowSequence().toList(), headers)

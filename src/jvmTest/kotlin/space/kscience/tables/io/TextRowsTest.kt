@@ -1,6 +1,5 @@
 package space.kscience.tables.io
 
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import space.kscience.dataforge.io.toByteArray
 import space.kscience.dataforge.misc.DFExperimental
@@ -28,7 +27,7 @@ class TextRowsTest {
         val string = envelope.data!!.toByteArray().decodeToString()
         println(string)
         val table = envelope.readTextRows()
-        val rows = table.rowFlow().toList()
+        val rows = table.rowSequence().toList()
         assertEquals(1, rows[0].getOrNull("a")?.int)
         assertEquals("b2", rows[1].getOrNull("b")?.string)
     }

@@ -1,7 +1,6 @@
 package space.kscience.tables
 
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
 
 /**
  * Finite or infinite row set. Rows are produced in a lazy suspendable [Flow].
@@ -9,7 +8,7 @@ import kotlinx.coroutines.flow.asFlow
  */
 public interface Rows<out T> {
     public val headers: TableHeader<T>
-    public fun rowFlow(): Flow<Row<T>>
+    public fun rowSequence(): Sequence<Row<T>>
 }
 
 public interface Table<out T> : Rows<T> {
@@ -17,7 +16,7 @@ public interface Table<out T> : Rows<T> {
     public val columns: Collection<Column<T>>
     override val headers: TableHeader<T> get() = columns.toList()
     public val rows: List<Row<T>>
-    override fun rowFlow(): Flow<Row<T>> = rows.asFlow()
+    override fun rowSequence(): Sequence<Row<T>> = rows.asSequence()
 
     /**
      * Apply typed query to this table and return lazy [Flow] of resulting rows. The flow could be empty.

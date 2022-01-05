@@ -5,6 +5,8 @@ plugins {
     `maven-publish`
 }
 
+description = "A lightweight multiplatform library for tables"
+
 allprojects {
     group = "space.kscience"
     version = "0.1.3"
@@ -16,21 +18,26 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                api("space.kscience:dataforge-context:$dataforgeVersion")
                 api("space.kscience:dataforge-io:$dataforgeVersion")
-
-                //api(kotlin("reflect"))
             }
         }
     }
 }
 
-readme {
-    maturity = ru.mipt.npm.gradle.Maturity.EXPERIMENTAL
-}
-
 ksciencePublish {
-    github("dataforge-core")
+    github("tables-kt")
     space("https://maven.pkg.jetbrains.space/mipt-npm/p/sci/maven")
     //sonatype()
+}
+
+
+readme {
+    maturity = ru.mipt.npm.gradle.Maturity.EXPERIMENTAL
+    propertyByTemplate("artifact", rootProject.file("docs/ARTIFACT-TEMPLATE.md"))
+
+    feature("Row-based tables"){
+        """
+            
+        """.trimIndent()
+    }
 }
