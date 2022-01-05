@@ -59,6 +59,12 @@ public fun <T> Column<T>.sequence(): Sequence<T?> = sequence {
     }
 }
 
+public fun <T> Column<T>.listValues(): List<T?> = if(this is ListColumn){
+    this.data
+} else {
+    sequence().toList()
+}
+
 
 public interface Row<out T> {
     public fun getOrNull(column: String): T?

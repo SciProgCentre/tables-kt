@@ -4,7 +4,9 @@ import space.kscience.dataforge.meta.Meta
 import kotlin.reflect.KType
 import kotlin.reflect.typeOf
 
-
+/**
+ * Optimized primitive-holding column
+ */
 public class DoubleColumn(
     override val name: String,
     public val data: DoubleArray,

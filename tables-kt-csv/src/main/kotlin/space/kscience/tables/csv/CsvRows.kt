@@ -18,7 +18,7 @@ internal class CsvRow(val record: CSVRecord) : Row<Value> {
 
 
 public class CsvRows(private val rowsProvider: Iterable<CSVRecord>, private val names: List<String>) : Rows<Value> {
-    override val headers: TableHeader<Value> get() = names.map { ColumnHeader.forValue(it, ValueType.STRING) }
+    override val headers: TableHeader<Value> get() = names.map { ColumnHeader(it, ValueType.STRING) }
 
     override fun rowFlow(): Flow<Row<Value>> = rowsProvider.asFlow().map(::CsvRow)
 }

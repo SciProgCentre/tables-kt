@@ -22,7 +22,7 @@ public fun Table.Companion.readAsCsv(
     csvFormat.builder().formatModifier().build()
 ).use { parser ->
     RowTable(
-        headers = parser.headerNames.map { ColumnHeader.forValue(it, ValueType.STRING) },
+        headers = parser.headerNames.map { ColumnHeader(it, ValueType.STRING) },
         rows = parser.records.map { CsvRow(it) }
     )
 }

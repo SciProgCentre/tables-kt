@@ -20,7 +20,7 @@ public class TransformationColumn<T, R : Any>(
 }
 
 /**
- * A virtual column obtained via transformation of single column with caching results on call (evaluation is lazy).
+ * A virtual column obtained via transformation of a [Row] with caching results on call (evaluation is lazy).
  *
  * Calls are not thread safe
  */
@@ -39,7 +39,7 @@ public class CachedTransformationColumn<T, R : Any>(
 /**
  * Create a virtual column from a given column
  */
-public inline fun <T, reified R : Any> Table<T>.mapRows(
+public inline fun <T, reified R : Any> Table<T>.rowsToColumn(
     name: String,
     meta: Meta = Meta.EMPTY,
     cache: Boolean = false,
@@ -50,7 +50,7 @@ public inline fun <T, reified R : Any> Table<T>.mapRows(
     TransformationColumn(this, typeOf<R>(), name, meta, mapper)
 }
 
-public fun <T> Table<T>.mapRowsToDouble(
+public fun <T> Table<T>.rowsToDoubleColumn(
     name: String,
     meta: Meta = Meta.EMPTY,
     block: (Row<T>) -> Double,
@@ -59,7 +59,11 @@ public fun <T> Table<T>.mapRowsToDouble(
     return DoubleColumn(name, data, meta)
 }
 
-public fun <T> Table<T>.mapRowsToInt(name: String, meta: Meta = Meta.EMPTY, block: (Row<T>) -> Int): IntColumn {
+public fun <T> Table<T>.rowsToIntColumn(
+    name: String,
+    meta: Meta = Meta.EMPTY,
+    block: (Row<T>) -> Int,
+): IntColumn {
     val data = IntArray(rows.size) { block(rows[it]) }
     return IntColumn(name, data, meta)
 }

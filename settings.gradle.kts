@@ -3,8 +3,6 @@ rootProject.name = "tables-kt"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 enableFeaturePreview("VERSION_CATALOGS")
 
-//val toolsVersion = "0.10.7"
-
 pluginManagement {
     val toolsVersion: String by extra
 

@@ -1,8 +1,8 @@
 package space.kscience.tables
 
 import space.kscience.dataforge.meta.Meta
+import space.kscience.dataforge.meta.enum
 import space.kscience.dataforge.meta.get
-import space.kscience.dataforge.meta.string
 import space.kscience.dataforge.values.Value
 import space.kscience.dataforge.values.ValueType
 import kotlin.properties.ReadOnlyProperty
@@ -19,47 +19,48 @@ public interface ColumnHeader<out T> {
     public val meta: Meta
 
     public companion object {
-        public inline fun <reified T> forType(
-            name: String,
-            builder: ColumnScheme.() -> Unit = {}
-        ): ColumnHeader<T> = SimpleColumnHeader(
-            name, typeOf<T>(), ColumnScheme(builder).meta
-        )
-
         /**
          * A delegated builder for typed column header
          */
         public inline fun <reified T> typed(
-            crossinline builder: ColumnScheme.() -> Unit
+            crossinline builder: ColumnScheme.() -> Unit = {},
         ): ReadOnlyProperty<Any?, ColumnHeader<T>> = ReadOnlyProperty { _, property ->
-            forType(property.name, builder)
+            ColumnHeader(property.name, builder)
         }
-
-        public fun forValue(
-            name: String,
-            valueType: ValueType,
-            builder: ValueColumnScheme.() -> Unit = {}
-        ): ColumnHeader<Value> = SimpleColumnHeader(
-            name, typeOf<Value>(), ValueColumnScheme {
-                this.valueType = valueType
-                builder()
-            }.meta
-        )
 
         public fun value(
             valueType: ValueType = ValueType.STRING,
-            builder: ValueColumnScheme.() -> Unit = {}
+            builder: ValueColumnScheme.() -> Unit = {},
         ): ReadOnlyProperty<Any?, ColumnHeader<Value>> = ReadOnlyProperty { _, property ->
-            forValue(property.name, valueType, builder)
+            ColumnHeader(property.name, valueType, builder)
         }
     }
 }
 
+@Suppress("FunctionName")
+public inline fun <reified T> ColumnHeader(
+    name: String,
+    builder: ColumnScheme.() -> Unit = {},
+): ColumnHeader<T> = SimpleColumnHeader(name, typeOf<T>(), ColumnScheme(builder).meta)
+
+@Suppress("FunctionName")
+public fun ColumnHeader(
+    name: String,
+    valueType: ValueType,
+    builder: ValueColumnScheme.() -> Unit = {},
+): ColumnHeader<Value> = SimpleColumnHeader(
+    name, typeOf<Value>(), ValueColumnScheme {
+        this.valueType = valueType
+        builder()
+    }.meta
+)
+
 public data class SimpleColumnHeader<T>(
     override val name: String,
     override val type: KType,
-    override val meta: Meta
+    override val meta: Meta,
 ) : ColumnHeader<T>
 
 
-public val ColumnHeader<Value>.valueType: ValueType? get() = meta["valueType"].string?.let { ValueType.valueOf(it) }
+public val ColumnHeader<Value>.valueType: ValueType?
+    get() = meta[ValueColumnScheme::valueType.name].enum<ValueType>()

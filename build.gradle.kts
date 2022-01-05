@@ -7,7 +7,7 @@ plugins {
 
 allprojects {
     group = "space.kscience"
-    version = "0.1.2"
+    version = "0.1.3"
 }
 
 val dataforgeVersion = "0.5.2"
@@ -19,7 +19,7 @@ kotlin {
                 api("space.kscience:dataforge-context:$dataforgeVersion")
                 api("space.kscience:dataforge-io:$dataforgeVersion")
 
-                api(kotlin("reflect"))
+                //api(kotlin("reflect"))
             }
         }
     }
