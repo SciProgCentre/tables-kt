@@ -2,6 +2,7 @@ package space.kscience.tables
 
 import space.kscience.dataforge.meta.Meta
 import space.kscience.dataforge.values.Value
+import space.kscience.dataforge.values.ValueType
 import kotlin.properties.PropertyDelegateProvider
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KType
@@ -30,6 +31,11 @@ public class MutableRowTable<C>(
         return header
     }
 
+    public fun addRow(row: Row<C>): Row<C> {
+        rows.add(row)
+        return row
+    }
+
     public inline fun <reified T : C> newColumn(
         name: String,
         index: Int? = null,
@@ -41,14 +47,9 @@ public class MutableRowTable<C>(
         noinline columnMetaBuilder: ColumnScheme.() -> Unit = {},
     ): PropertyDelegateProvider<Any?, ReadOnlyProperty<Any?, ColumnHeader<T>>> =
         PropertyDelegateProvider { _, property ->
-            val res = newColumn<T>(property.name, index, columnMetaBuilder)
+            val res: ColumnHeader<T> = newColumn(property.name, index, columnMetaBuilder)
             ReadOnlyProperty { _, _ -> res }
         }
-
-    public fun addRow(row: Row<C>): Row<C> {
-        rows.add(row)
-        return row
-    }
 
     public fun row(map: Map<String, C?>): Row<C> {
         val row = MapRow(map)
@@ -58,6 +59,28 @@ public class MutableRowTable<C>(
 
     public fun <T : C> row(vararg pairs: Pair<ColumnHeader<T>, T>): Row<C> = addRow(Row(*pairs))
 }
+
+public fun MutableRowTable<in Value>.newColumn(
+    name: String,
+    valueType: ValueType,
+    index: Int? = null,
+    columnMetaBuilder: ValueColumnScheme.() -> Unit = {},
+): ColumnHeader<Value> = newColumn(
+    name,
+    typeOf<Value>(),
+    ValueColumnScheme(columnMetaBuilder).also { it.valueType = valueType }.toMeta(),
+    index
+)
+
+public fun MutableRowTable<in Value>.column(
+    valueType: ValueType,
+    index: Int? = null,
+    columnMetaBuilder: ValueColumnScheme.() -> Unit = {},
+): PropertyDelegateProvider<Any?, ReadOnlyProperty<Any?, ColumnHeader<Value>>> =
+    PropertyDelegateProvider { _, property ->
+        val res = newColumn(property.name, valueType, index, columnMetaBuilder)
+        ReadOnlyProperty { _, _ -> res }
+    }
 
 public fun MutableRowTable<Value>.valueRow(vararg pairs: Pair<ColumnHeader<Value>, Any?>): Row<Value> =
     row(pairs.associate { it.first.name to Value.of(it.second) })

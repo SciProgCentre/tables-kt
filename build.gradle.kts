@@ -9,7 +9,7 @@ description = "A lightweight multiplatform library for tables"
 
 allprojects {
     group = "space.kscience"
-    version = "0.1.3"
+    version = "0.1.5"
 }
 
 val dataforgeVersion = "0.5.2"
@@ -37,7 +37,7 @@ readme {
 
     feature("Row-based tables"){
         """
-            
+            Tables with 
         """.trimIndent()
     }
 }

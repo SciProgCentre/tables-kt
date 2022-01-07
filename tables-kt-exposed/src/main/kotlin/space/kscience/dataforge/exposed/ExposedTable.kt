@@ -1,3 +1,5 @@
+@file:Suppress("FunctionName")
+
 package space.kscience.dataforge.exposed
 
 import org.jetbrains.exposed.dao.id.IntIdTable
