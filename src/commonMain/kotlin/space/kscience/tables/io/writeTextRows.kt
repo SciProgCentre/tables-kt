@@ -52,7 +52,7 @@ public fun Output.writeTextRows(rows: Rows<Value>, separator: String = "\t") {
     }
     rows.rowSequence().forEach { row ->
         rows.headers.forEachIndexed { index, columnHeader ->
-            writeValue(row[columnHeader] ?: Null, widths[index])
+            writeValue(row[columnHeader], widths[index])
             writeUtf8String(separator)
         }
 //        appendLine()

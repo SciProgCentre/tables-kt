@@ -10,6 +10,7 @@ import kotlin.test.assertEquals
 
 @Suppress("UNCHECKED_CAST")
 internal class ExposedTableTest {
+
     @Test
     fun exposedTable() {
         val db = Database.connect("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1", driver = "org.h2.Driver")

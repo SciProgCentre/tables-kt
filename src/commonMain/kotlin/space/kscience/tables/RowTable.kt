@@ -47,8 +47,8 @@ internal class RowTableColumn<T, R : T>(val table: Table<T>, val header: ColumnH
  * A row-based table
  */
 public open class RowTable<C>(
-    override val rows: List<Row<C>>,
     override val headers: List<ColumnHeader<C>>,
+    override val rows: List<Row<C>>,
 ) : Table<C> {
     override fun getOrNull(row: Int, column: String): C? = rows[row].getOrNull(column)
 
@@ -59,7 +59,9 @@ public open class RowTable<C>(
  * Create Row table with given headers
  */
 @Suppress("FunctionName")
-public inline fun <T> RowTable(vararg headers: ColumnHeader<T>, block: MutableRowTable<T>.() -> Unit): RowTable<T> =
-    MutableRowTable<T>(arrayListOf(), headers.toMutableList()).apply(block)
+public inline fun <T> RowTable(vararg headers: ColumnHeader<T>, block: RowTableBuilder<T>.() -> Unit): RowTable<T> =
+    RowTableBuilder<T>(arrayListOf(), headers.toMutableList()).apply(block)
 
-public suspend fun <C> Rows<C>.collect(): Table<C> = this as? Table<C> ?: RowTable(rowSequence().toList(), headers)
+public fun <C> Rows<C>.collect(): Table<C> = this as? Table<C> ?: RowTable(headers, rowSequence().toList())
+
+public fun <T> Table<T>.toRowTable(): RowTable<T> = RowTable(headers, rows)

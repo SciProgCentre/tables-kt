@@ -7,7 +7,7 @@ import kotlin.reflect.typeOf
 /**
  * A virtual column obtained by transforming Given row to a single value
  */
-public class TransformationColumn<T, R : Any>(
+public class TransformationColumn<T, R>(
     public val table: Table<T>,
     override val type: KType,
     override val name: String,
@@ -24,7 +24,7 @@ public class TransformationColumn<T, R : Any>(
  *
  * Calls are not thread safe
  */
-public class CachedTransformationColumn<T, R : Any>(
+public class CachedTransformationColumn<T, R>(
     public val table: Table<T>,
     override val type: KType,
     override val name: String,
@@ -39,7 +39,7 @@ public class CachedTransformationColumn<T, R : Any>(
 /**
  * Create a virtual column from a given column
  */
-public inline fun <T, reified R : Any> Table<T>.rowsToColumn(
+public inline fun <T, reified R> Table<T>.rowsToColumn(
     name: String,
     meta: Meta = Meta.EMPTY,
     cache: Boolean = false,
@@ -48,6 +48,16 @@ public inline fun <T, reified R : Any> Table<T>.rowsToColumn(
     CachedTransformationColumn(this, typeOf<R>(), name, meta, mapper)
 } else {
     TransformationColumn(this, typeOf<R>(), name, meta, mapper)
+}
+
+public fun <T, R> Table<T>.rowsToColumn(
+    header: ColumnHeader<R>,
+    cache: Boolean = false,
+    mapper: (Row<T>) -> R?,
+): Column<R> = if (cache) {
+    CachedTransformationColumn(this, header.type, header.name, header.meta, mapper)
+} else {
+    TransformationColumn(this, header.type, header.name, header.meta, mapper)
 }
 
 public fun <T> Table<T>.rowsToDoubleColumn(

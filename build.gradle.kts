@@ -34,10 +34,4 @@ ksciencePublish {
 readme {
     maturity = ru.mipt.npm.gradle.Maturity.EXPERIMENTAL
     propertyByTemplate("artifact", rootProject.file("docs/ARTIFACT-TEMPLATE.md"))
-
-    feature("Row-based tables"){
-        """
-            Tables with 
-        """.trimIndent()
-    }
 }

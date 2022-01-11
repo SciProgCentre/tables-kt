@@ -28,10 +28,12 @@ public interface Table<out T> : Rows<T> {
 public operator fun <T> Table<T>.get(row: Int, column: String): T =
     getOrNull(row, column) ?: error("Element with column $column and row $row not found in $this")
 
-public operator fun <T> Collection<Column<T>>.get(name: String): Column<T>? = find { it.name == name }
+public fun <T> Collection<Column<T>>.getOrNull(name: String): Column<T>? = find { it.name == name }
+
+public operator fun <T> Collection<Column<T>>.get(name: String): Column<T> = first { it.name == name }
 
 public inline operator fun <T, reified R : T> Table<T>.get(row: Int, column: ColumnHeader<R>): R? {
-    require(headers.contains(column)) { "Column $column is not in table headers" }
+    //require(headers.contains(column)) { "Column $column is not in table headers" }
     return getOrNull(row, column.name) as? R
 }
 
@@ -72,4 +74,5 @@ public interface Row<out T> {
 public operator fun <T> Row<T>.get(column: String): T =
     getOrNull(column) ?: error("Element with column name $column not found in $this")
 
-public inline operator fun <T, reified R : T> Row<T>.get(column: ColumnHeader<R>): R? = get(column.name) as? R
+public inline operator fun <T, reified R : T> Row<T>.get(column: ColumnHeader<R>): R = get(column.name) as? R
+    ?: error("Type conversion to ${R::class} failed for ${get(column.name)}")

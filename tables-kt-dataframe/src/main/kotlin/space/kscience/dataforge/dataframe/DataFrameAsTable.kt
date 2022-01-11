@@ -2,10 +2,12 @@ package space.kscience.dataforge.dataframe
 
 import org.jetbrains.kotlinx.dataframe.*
 import org.jetbrains.kotlinx.dataframe.api.cast
+import org.jetbrains.kotlinx.dataframe.api.column
 import org.jetbrains.kotlinx.dataframe.api.getColumn
 import org.jetbrains.kotlinx.dataframe.api.rows
 import space.kscience.dataforge.meta.Meta
 import space.kscience.tables.Column
+import space.kscience.tables.ColumnHeader
 import space.kscience.tables.Row
 import space.kscience.tables.Table
 import kotlin.reflect.KType
@@ -49,3 +51,13 @@ internal value class DataFrameAsTable<T>(private val dataFrame: DataFrame<T>) : 
  * Represent a [DataFrame] as a [Table]
  */
 public fun <T> DataFrame<T>.asTable(): Table<T> = DataFrameAsTable(this)
+
+public operator fun <R> DataFrame<*>.get(header: ColumnHeader<R>): DataColumn<R> {
+    val reference = column<R>(header.name)
+    return get(reference)
+}
+
+public operator fun <R> DataRow<*>.get(header: ColumnHeader<R>): R {
+    val reference = column<R>(header.name)
+    return get(reference)
+}

@@ -8,10 +8,10 @@ import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KType
 import kotlin.reflect.typeOf
 
-public class MutableRowTable<C>(
+public class RowTableBuilder<C>(
     override val rows: MutableList<Row<C>>,
     override val headers: MutableList<ColumnHeader<C>>,
-) : RowTable<C>(rows, headers) {
+) : RowTable<C>(headers, rows) {
 
     public fun <T : C> addColumn(header: ColumnHeader<C>) {
         headers.add(header)
@@ -60,7 +60,7 @@ public class MutableRowTable<C>(
     public fun <T : C> row(vararg pairs: Pair<ColumnHeader<T>, T>): Row<C> = addRow(Row(*pairs))
 }
 
-public fun MutableRowTable<in Value>.newColumn(
+public fun RowTableBuilder<in Value>.newColumn(
     name: String,
     valueType: ValueType,
     index: Int? = null,
@@ -72,7 +72,7 @@ public fun MutableRowTable<in Value>.newColumn(
     index
 )
 
-public fun MutableRowTable<in Value>.column(
+public fun RowTableBuilder<in Value>.column(
     valueType: ValueType,
     index: Int? = null,
     columnMetaBuilder: ValueColumnScheme.() -> Unit = {},
@@ -82,26 +82,26 @@ public fun MutableRowTable<in Value>.column(
         ReadOnlyProperty { _, _ -> res }
     }
 
-public fun MutableRowTable<Value>.valueRow(vararg pairs: Pair<ColumnHeader<Value>, Any?>): Row<Value> =
+public fun RowTableBuilder<Value>.valueRow(vararg pairs: Pair<ColumnHeader<Value>, Any?>): Row<Value> =
     row(pairs.associate { it.first.name to Value.of(it.second) })
 
 /**
  * Add a row represented by Meta
  */
-public fun MutableRowTable<Value>.row(meta: Meta): Row<Value> {
+public fun RowTableBuilder<Value>.row(meta: Meta): Row<Value> {
     val row = MetaRow(meta)
     rows.add(row)
     return row
 }
 
 /**
- * Shallow copy table to a new [MutableRowTable]
+ * Shallow copy table to a new [RowTableBuilder]
  */
-public fun <T> RowTable<T>.toMutableRowTable(): MutableRowTable<T> =
-    MutableRowTable(rows.toMutableList(), headers.toMutableList())
+public fun <T> RowTable<T>.toMutableRowTable(): RowTableBuilder<T> =
+    RowTableBuilder(rows.toMutableList(), headers.toMutableList())
 
 /**
  * Shallow copy and edit [Table] and edit it as [RowTable]
  */
-public fun <T> Table<T>.editRows(block: MutableRowTable<T>.() -> Unit): RowTable<T> =
-    MutableRowTable(rows.toMutableList(), headers.toMutableList()).apply(block)
+public fun <T> Table<T>.withRows(block: RowTableBuilder<T>.() -> Unit): RowTable<T> =
+    RowTableBuilder(rows.toMutableList(), headers.toMutableList()).apply(block)
