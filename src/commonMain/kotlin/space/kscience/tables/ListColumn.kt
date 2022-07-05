@@ -30,8 +30,7 @@ public fun <T> ListColumn(
     header: ColumnHeader<T>,
     size: Int,
     dataBuilder: (Int) -> T?,
-): ListColumn<T> =
-    ListColumn(header.name,  List(size, dataBuilder), header.type, header.meta)
+): ListColumn<T> = ListColumn(header.name, List(size, dataBuilder), header.type, header.meta)
 
 public inline fun <reified T> ListColumn(
     name: String,

@@ -36,6 +36,8 @@ internal class ColumnAsDataColumn<T>(
         return ColumnAsDataColumn<T>(column, newIndices, nameOverride)
     }
 
+    override fun contains(value: T): Boolean = indexList.any { column.getOrNull(it) == value }
+
     override fun countDistinct(): Int = distinct().count()
 
     override fun defaultValue(): T? = null
