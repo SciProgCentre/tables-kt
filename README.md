@@ -14,17 +14,17 @@ The library is intended as multiplatform. It supports JVM, JS-IR and Native targ
 
 ## Artifact:
 
-The Maven coordinates of this project are `space.kscience:tables-kt:0.1.3`.
+The Maven coordinates of this project are `space.kscience:tables-kt:0.2.0-dev-1`.
 
-**Gradle:**
-```gradle
+**Gradle Groovy:**
+```groovy
 repositories {
     maven { url 'https://repo.kotlin.link' }
     mavenCentral()
 }
 
 dependencies {
-    implementation 'space.kscience:tables-kt:0.1.3'
+    implementation 'space.kscience:tables-kt:0.2.0-dev-1'
 }
 ```
 **Gradle Kotlin DSL:**
@@ -35,7 +35,7 @@ repositories {
 }
 
 dependencies {
-    implementation("space.kscience:tables-kt:0.1.3")
+    implementation("space.kscience:tables-kt:0.2.0-dev-1")
 }
 ```
 
@@ -45,28 +45,23 @@ dependencies {
 
 ## Modules
 
-<hr/>
 
-* ### [tables-kt-csv](tables-kt-csv)
+### [tables-kt-csv](tables-kt-csv)
 > 
 >
 > **Maturity**: EXPERIMENTAL
-<hr/>
 
-* ### [tables-kt-dataframe](tables-kt-dataframe)
+### [tables-kt-dataframe](tables-kt-dataframe)
 > 
 >
 > **Maturity**: PROTOTYPE
-<hr/>
 
-* ### [tables-kt-exposed](tables-kt-exposed)
+### [tables-kt-exposed](tables-kt-exposed)
 > 
 >
 > **Maturity**: EXPERIMENTAL
-<hr/>
 
-* ### [tables-kt-jupyter](tables-kt-jupyter)
+### [tables-kt-jupyter](tables-kt-jupyter)
 > 
 >
 > **Maturity**: EXPERIMENTAL
-<hr/>
