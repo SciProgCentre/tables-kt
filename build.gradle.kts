@@ -9,10 +9,16 @@ description = "A lightweight multiplatform library for tables"
 
 allprojects {
     group = "space.kscience"
-    version = "0.1.5"
+    version = "0.2.0-dev-1"
+
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>{
+        kotlinOptions{
+            freeCompilerArgs = freeCompilerArgs + "-Xcontext-receivers"
+        }
+    }
 }
 
-val dataforgeVersion = "0.5.2"
+val dataforgeVersion = "0.6.0-dev-10"
 
 kotlin {
     sourceSets {

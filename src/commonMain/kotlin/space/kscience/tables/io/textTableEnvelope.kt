@@ -2,8 +2,6 @@ package space.kscience.tables.io
 
 import space.kscience.dataforge.io.Binary
 import space.kscience.dataforge.io.Envelope
-import space.kscience.dataforge.io.asBinary
-import space.kscience.dataforge.io.buildByteArray
 import space.kscience.dataforge.meta.*
 import space.kscience.dataforge.names.NameToken
 import space.kscience.dataforge.names.asName
@@ -32,9 +30,9 @@ public suspend fun Table<Value>.toTextEnvelope(): Envelope = Envelope {
     type = "table.value"
     dataID = "valueTable[${this@toTextEnvelope.hashCode()}]"
 
-    data = buildByteArray {
+    data = Binary {
         writeTextRows(this@toTextEnvelope)
-    }.asBinary()
+    }
 }
 
 /**

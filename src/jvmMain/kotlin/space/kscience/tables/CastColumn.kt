@@ -29,7 +29,7 @@ private class CastColumn<T : Any>(private val origin: Column<*>, override val ty
 public class ColumnProperty<C: Any, T : C>(public val table: Table<C>, public val type: KType) : ReadOnlyProperty<Any?, Column<T>> {
     override fun getValue(thisRef: Any?, property: KProperty<*>): Column<T> {
         val name = property.name
-        return (table.columns[name] ?: error("Column with name $name not found in the table")).cast(type)
+        return (table.columns.getOrNull(name) ?: error("Column with name $name not found in the table")).cast(type)
     }
 }
 
