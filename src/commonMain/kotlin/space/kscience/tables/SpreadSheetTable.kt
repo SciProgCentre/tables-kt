@@ -1,7 +1,7 @@
 package space.kscience.tables
 
 import space.kscience.dataforge.meta.Meta
-import space.kscience.dataforge.values.Value
+import space.kscience.dataforge.meta.Value
 import kotlin.jvm.JvmName
 import kotlin.reflect.KType
 import kotlin.reflect.typeOf

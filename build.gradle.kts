@@ -1,7 +1,7 @@
 plugins {
-    id("ru.mipt.npm.gradle.project")
-    id("ru.mipt.npm.gradle.mpp")
-    id("ru.mipt.npm.gradle.native")
+    id("space.kscience.gradle.project")
+    id("space.kscience.gradle.mpp")
+    id("space.kscience.gradle.native")
     `maven-publish`
 }
 
@@ -9,7 +9,7 @@ description = "A lightweight multiplatform library for tables"
 
 allprojects {
     group = "space.kscience"
-    version = "0.2.0-dev-1"
+    version = "0.2.0-dev-3"
 
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>{
         kotlinOptions{
@@ -18,7 +18,7 @@ allprojects {
     }
 }
 
-val dataforgeVersion = "0.6.0-dev-10"
+val dataforgeVersion = "0.6.0-dev-13"
 
 kotlin {
     sourceSets {
@@ -38,6 +38,6 @@ ksciencePublish {
 
 
 readme {
-    maturity = ru.mipt.npm.gradle.Maturity.EXPERIMENTAL
+    maturity = space.kscience.gradle.Maturity.EXPERIMENTAL
     propertyByTemplate("artifact", rootProject.file("docs/ARTIFACT-TEMPLATE.md"))
 }

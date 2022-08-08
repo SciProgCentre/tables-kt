@@ -1,10 +1,6 @@
 package space.kscience.tables
 
-import space.kscience.dataforge.meta.Meta
-import space.kscience.dataforge.meta.enum
-import space.kscience.dataforge.meta.get
-import space.kscience.dataforge.values.Value
-import space.kscience.dataforge.values.ValueType
+import space.kscience.dataforge.meta.*
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KType
 import kotlin.reflect.typeOf

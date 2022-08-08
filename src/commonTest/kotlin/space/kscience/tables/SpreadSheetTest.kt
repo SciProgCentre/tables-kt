@@ -1,8 +1,8 @@
 package space.kscience.tables
 
-import space.kscience.dataforge.values.Value
-import space.kscience.dataforge.values.ValueType
-import space.kscience.dataforge.values.int
+import space.kscience.dataforge.meta.Value
+import space.kscience.dataforge.meta.ValueType
+import space.kscience.dataforge.meta.int
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

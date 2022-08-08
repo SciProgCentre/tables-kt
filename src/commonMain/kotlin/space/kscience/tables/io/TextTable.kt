@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.toList
 import space.kscience.dataforge.io.Binary
 import space.kscience.dataforge.io.readSafeUtf8Line
-import space.kscience.dataforge.values.Value
+import space.kscience.dataforge.meta.Value
 import space.kscience.tables.*
 
 /**

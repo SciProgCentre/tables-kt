@@ -1,8 +1,8 @@
 package space.kscience.tables
 
 import space.kscience.dataforge.meta.Meta
-import space.kscience.dataforge.values.Value
-import space.kscience.dataforge.values.ValueType
+import space.kscience.dataforge.meta.Value
+import space.kscience.dataforge.meta.ValueType
 import kotlin.properties.PropertyDelegateProvider
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KType

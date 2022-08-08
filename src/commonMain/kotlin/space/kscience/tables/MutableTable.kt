@@ -1,6 +1,6 @@
 package space.kscience.tables
 
-import space.kscience.dataforge.values.Value
+import space.kscience.dataforge.meta.Value
 
 /**
  * A table with random-access mutable cells

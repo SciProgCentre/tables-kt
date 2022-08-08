@@ -48,8 +48,8 @@ public operator fun <T> Column<T>.get(index: Int): T =
 
 public inline fun <T> Column<T>.contentEquals(
     other: Column<T>,
-    criterion: (l: T, r: T) -> Boolean = { l, r -> l == r },
-): Boolean = this.indices == other.indices && indices.all { getOrNull(it) == other.getOrNull(it) }
+    criterion: (l: T?, r: T?) -> Boolean = { l, r -> l == r },
+): Boolean = this.indices == other.indices && indices.all { criterion(getOrNull(it), other.getOrNull(it)) }
 
 public val Column<*>.indices: IntRange get() = (0 until size)
 

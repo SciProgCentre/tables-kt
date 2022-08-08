@@ -5,7 +5,6 @@ import space.kscience.dataforge.io.Envelope
 import space.kscience.dataforge.meta.*
 import space.kscience.dataforge.names.NameToken
 import space.kscience.dataforge.names.asName
-import space.kscience.dataforge.values.Value
 import space.kscience.tables.Rows
 import space.kscience.tables.SimpleColumnHeader
 import space.kscience.tables.Table

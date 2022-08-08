@@ -2,9 +2,7 @@ package space.kscience.tables.io
 
 import io.ktor.utils.io.core.Output
 import space.kscience.dataforge.io.writeUtf8String
-import space.kscience.dataforge.meta.get
-import space.kscience.dataforge.meta.int
-import space.kscience.dataforge.values.*
+import space.kscience.dataforge.meta.*
 import space.kscience.tables.ColumnHeader
 import space.kscience.tables.Rows
 import space.kscience.tables.get

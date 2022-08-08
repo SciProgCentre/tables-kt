@@ -1,9 +1,9 @@
 package space.kscience.tables.csv
 
 import org.apache.commons.csv.CSVRecord
-import space.kscience.dataforge.values.Value
-import space.kscience.dataforge.values.ValueType
-import space.kscience.dataforge.values.lazyParseValue
+import space.kscience.dataforge.meta.Value
+import space.kscience.dataforge.meta.ValueType
+import space.kscience.dataforge.meta.lazyParseValue
 import space.kscience.tables.ColumnHeader
 import space.kscience.tables.Row
 import space.kscience.tables.Rows

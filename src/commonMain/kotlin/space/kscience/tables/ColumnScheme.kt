@@ -1,11 +1,6 @@
 package space.kscience.tables
 
-import space.kscience.dataforge.meta.Scheme
-import space.kscience.dataforge.meta.SchemeSpec
-import space.kscience.dataforge.meta.enum
-import space.kscience.dataforge.meta.string
-import space.kscience.dataforge.values.Value
-import space.kscience.dataforge.values.ValueType
+import space.kscience.dataforge.meta.*
 
 public open class ColumnScheme : Scheme() {
     public var title: String? by string()

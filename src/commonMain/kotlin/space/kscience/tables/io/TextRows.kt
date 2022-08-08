@@ -2,8 +2,8 @@ package space.kscience.tables.io
 
 import io.ktor.utils.io.core.readBytes
 import space.kscience.dataforge.io.Binary
-import space.kscience.dataforge.values.Value
-import space.kscience.dataforge.values.lazyParseValue
+import space.kscience.dataforge.meta.Value
+import space.kscience.dataforge.meta.lazyParseValue
 import space.kscience.tables.MapRow
 import space.kscience.tables.Row
 import space.kscience.tables.Rows
