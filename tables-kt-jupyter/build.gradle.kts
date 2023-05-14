@@ -5,7 +5,7 @@ plugins {
 
 dependencies {
     api(rootProject)
-    api(npmlibs.kotlinx.html)
+    api(spcLibs.kotlinx.html)
 }
 
 kscience{

@@ -14,7 +14,7 @@ The library is intended as multiplatform. It supports JVM, JS-IR and Native targ
 
 ## Artifact:
 
-The Maven coordinates of this project are `space.kscience:tables-kt:0.2.0-dev-1`.
+The Maven coordinates of this project are `space.kscience:tables-kt:0.2.0-dev-3`.
 
 **Gradle Groovy:**
 ```groovy
@@ -24,7 +24,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'space.kscience:tables-kt:0.2.0-dev-1'
+    implementation 'space.kscience:tables-kt:0.2.0-dev-3'
 }
 ```
 **Gradle Kotlin DSL:**
@@ -35,7 +35,7 @@ repositories {
 }
 
 dependencies {
-    implementation("space.kscience:tables-kt:0.2.0-dev-1")
+    implementation("space.kscience:tables-kt:0.2.0-dev-3")
 }
 ```
 

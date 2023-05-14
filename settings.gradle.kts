@@ -1,7 +1,6 @@
 rootProject.name = "tables-kt"
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-enableFeaturePreview("VERSION_CATALOGS")
 
 pluginManagement {
     val toolsVersion: String by extra
@@ -31,7 +30,7 @@ dependencyResolutionManagement {
     }
 
     versionCatalogs {
-        create("npmlibs") {
+        create("spcLibs") {
             from("space.kscience:version-catalog:$toolsVersion")
         }
     }

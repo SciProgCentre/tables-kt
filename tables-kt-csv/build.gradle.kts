@@ -5,7 +5,7 @@ plugins {
 
 dependencies {
     api(rootProject)
-    implementation("org.apache.commons:commons-csv:1.9.0")
+    implementation("org.apache.commons:commons-csv:1.10.0")
 }
 
 readme {
