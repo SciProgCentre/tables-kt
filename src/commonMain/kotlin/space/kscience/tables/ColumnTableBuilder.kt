@@ -1,12 +1,7 @@
 package space.kscience.tables
 
-import space.kscience.dataforge.meta.Meta
-import space.kscience.dataforge.misc.DFExperimental
-import kotlin.properties.ReadOnlyProperty
-import kotlin.reflect.typeOf
-
 /**
- * Mutable table with a fixed size, but dynamic columns
+ * A table with columns that could be reordered. Column content could not be changed after creation.
  */
 public class ColumnTableBuilder<T>(
     public val rowsSize: Int,
@@ -33,6 +28,9 @@ public class ColumnTableBuilder<T>(
         }
     }
 
+    /**
+     * Remove a column
+     */
     public fun removeColumn(name: String) {
         _columns.removeAll { it.name == name }
     }
@@ -40,17 +38,9 @@ public class ColumnTableBuilder<T>(
     /**
      * Add or replace existing column with given header. Column is always added to the end of the table
      */
-    @DFExperimental
     public operator fun <R : T> Collection<Column<T>>.set(header: ColumnHeader<R>, data: Iterable<R>) {
         removeColumn(header.name)
         val column = ListColumn(header.name, data.toList(), header.type, header.meta)
-        addColumn(column)
-    }
-
-    @DFExperimental
-    public operator fun <R : T> Collection<Column<T>>.set(header: ColumnHeader<R>, expression: (Row<T>) -> R) {
-        removeColumn(header.name)
-        val column = rowsToColumn(header,false,expression)
         addColumn(column)
     }
 
@@ -70,49 +60,32 @@ public class ColumnTableBuilder<T>(
         }
 }
 
-public fun <T, R : T> ColumnTableBuilder<T>.newColumn(
-    nameOverride: String? = null,
+/**
+ * Set or replace column using given [expression]
+ */
+public fun <T, R : T> ColumnTableBuilder<T>.column(
+    header: ColumnHeader<R>,
     index: Int? = null,
-    builder: (String) -> Column<R>,
-): ReadOnlyProperty<ColumnTableBuilder<T>, Column<R>> = ReadOnlyProperty { _, property ->
-    val name = nameOverride ?: property.name
-    val column = builder(name)
+    expression: (Row<T>) -> R,
+) {
+    val column = rowsToColumn(header, false, expression)
+    removeColumn(header.name)
     addColumn(column, index)
-    column
 }
 
+/**
+ * Set or replace column using column name
+ */
 public inline fun <T, reified R : T> ColumnTableBuilder<T>.column(
-    meta: Meta = Meta.EMPTY,
-    nameOverride: String? = null,
-    cache: Boolean = false,
+    name: String,
     index: Int? = null,
-    noinline mapper: (Row<T>) -> R?,
-): ReadOnlyProperty<ColumnTableBuilder<T>, Column<R>> = newColumn(nameOverride, index) {
-    rowsToColumn(it, meta, cache, mapper)
-}
-
-public inline fun <T, reified R : T> ColumnTableBuilder<T>.column(
-    values: Iterable<R>,
-    nameOverride: String? = null,
-    meta: Meta = Meta.EMPTY,
-    index: Int? = null,
-): ReadOnlyProperty<ColumnTableBuilder<T>, Column<R>> = newColumn(nameOverride, index) { name ->
-    ListColumn(name, values.toList(), typeOf<R>(), meta)
-}
-
-public inline fun <T, reified R : T> ColumnTableBuilder<T>.fillColumn(
-    nameOverride: String? = null,
-    meta: Meta = Meta.EMPTY,
-    index: Int? = null,
-    crossinline producer: (Int) -> R?,
-): ReadOnlyProperty<ColumnTableBuilder<T>, Column<R>> = newColumn(nameOverride, index) { name ->
-    ListColumn(name, List(rowsSize, producer), typeOf<R>(), meta)
-}
+    noinline expression: (Row<T>) -> R,
+): Unit = column(ColumnHeader<R>(name), index, expression)
 
 /**
  * Shallow copy table to a new [ColumnTableBuilder]
  */
-public fun <T> ColumnTable<T>.toMutableColumnTable(): ColumnTableBuilder<T> =
+public fun <T> ColumnTable<T>.builder(): ColumnTableBuilder<T> =
     ColumnTableBuilder<T>(rowsSize, columns.toMutableList())
 
 

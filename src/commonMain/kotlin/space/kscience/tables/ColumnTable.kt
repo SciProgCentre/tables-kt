@@ -16,10 +16,8 @@ public open class ColumnTable<out T>(final override val columns: Collection<Colu
     override fun getOrNull(row: Int, column: String): T? = columns[column].getOrNull(row)
 }
 
-@Suppress("FunctionName")
 public fun <T> ColumnTable(vararg columns: Column<T>): ColumnTable<T> = ColumnTable(columns.toList())
 
-@Suppress("FunctionName")
 public inline fun <T> ColumnTable(size: Int, builder: ColumnTableBuilder<T>.() -> Unit): ColumnTable<T> =
     ColumnTableBuilder<T>(size).apply(builder)
 
@@ -41,7 +39,7 @@ internal class VirtualRow<T>(val table: Table<T>, val index: Int) : Row<T> {
  *
  * The resulting table does not in general follow changes of the initial table.
  */
-public fun <T> Table<T>.toColumnTable(): ColumnTable<T> = ColumnTable(
+public fun <T> Table<T>.toColumnTable(): ColumnTable<T> = (this as? ColumnTable<T>) ?: ColumnTable(
     columns.map { c -> c as? ListColumn ?: ListColumn(c, c.listValues()) }
 )
 
