@@ -8,7 +8,7 @@ import org.jetbrains.kotlinx.jupyter.api.libraries.JupyterIntegration
 private const val MAX_ROWS = 20
 
 
-internal class TablesForJupyter : JupyterIntegration() {
+public class TablesForJupyter : JupyterIntegration() {
 
     private fun TagConsumer<*>.appendHeaders(headers: TableHeader<*>){
         tr {

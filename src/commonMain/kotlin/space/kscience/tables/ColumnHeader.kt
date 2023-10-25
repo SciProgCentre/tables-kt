@@ -33,13 +33,11 @@ public interface ColumnHeader<out T> {
     }
 }
 
-@Suppress("FunctionName")
 public inline fun <reified T> ColumnHeader(
     name: String,
     builder: ColumnScheme.() -> Unit = {},
 ): ColumnHeader<T> = SimpleColumnHeader(name, typeOf<T>(), ColumnScheme(builder).meta)
 
-@Suppress("FunctionName")
 public fun ColumnHeader(
     name: String,
     valueType: ValueType,

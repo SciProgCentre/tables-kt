@@ -1,4 +1,3 @@
-import space.kscience.gradle.isInDevelopment
 import space.kscience.gradle.useApache2Licence
 import space.kscience.gradle.useSPCTeam
 
@@ -12,10 +11,10 @@ description = "A lightweight multiplatform library for tables"
 
 allprojects {
     group = "space.kscience"
-    version = "0.2.0-dev-4"
+    version = "0.2.1"
 }
 
-val dataforgeVersion = "0.6.1"
+val dataforgeVersion = "0.6.2"
 
 kscience{
     jvm()
@@ -32,14 +31,8 @@ ksciencePublish {
         useApache2Licence()
         useSPCTeam()
     }
-    github("kmath", "tables-kt")
-    space(
-        if (isInDevelopment) {
-            "https://maven.pkg.jetbrains.space/spc/p/sci/dev"
-        } else {
-            "https://maven.pkg.jetbrains.space/spc/p/sci/maven"
-        }
-    )
+    repository("spc","https://maven.sciprog.center/kscience")
+    sonatype("https://oss.sonatype.org")
     sonatype("https://oss.sonatype.org")
 }
 
