@@ -6,27 +6,18 @@
 
 ## Artifact:
 
-The Maven coordinates of this project are `space.kscience:tables-kt-exposed:0.2.0-dev-4`.
+The Maven coordinates of this project are `space.kscience:tables-kt-exposed:0.2.1`.
 
-**Gradle Groovy:**
-```groovy
-repositories {
-    maven { url 'https://repo.kotlin.link' }
-    mavenCentral()
-}
-
-dependencies {
-    implementation 'space.kscience:tables-kt-exposed:0.2.0-dev-4'
-}
-```
 **Gradle Kotlin DSL:**
 ```kotlin
 repositories {
     maven("https://repo.kotlin.link")
+    //uncomment to access development builds
+    //maven("https://maven.pkg.jetbrains.space/spc/p/sci/dev")
     mavenCentral()
 }
 
 dependencies {
-    implementation("space.kscience:tables-kt-exposed:0.2.0-dev-4")
+    implementation("space.kscience:tables-kt-exposed:0.2.1")
 }
 ```

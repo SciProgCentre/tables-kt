@@ -33,7 +33,6 @@ ksciencePublish {
     }
     repository("spc","https://maven.sciprog.center/kscience")
     sonatype("https://oss.sonatype.org")
-    sonatype("https://oss.sonatype.org")
 }
 
 readme {
