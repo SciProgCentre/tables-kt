@@ -1,7 +1,7 @@
 package space.kscience.tables.io
 
-import io.ktor.utils.io.core.Output
-import space.kscience.dataforge.io.writeUtf8String
+import kotlinx.io.Sink
+import kotlinx.io.writeString
 import space.kscience.dataforge.meta.*
 import space.kscience.tables.ColumnHeader
 import space.kscience.tables.Rows
@@ -11,7 +11,7 @@ import space.kscience.tables.valueType
 /**
  * Write a fixed width value to the output
  */
-private fun Output.writeValue(value: Value, width: Int, left: Boolean = true) {
+private fun Sink.writeValue(value: Value, width: Int, left: Boolean = true) {
     require(width > 5) { "Width could not be less than 5" }
     val str: String = when (value.type) {
         ValueType.NUMBER -> value.numberOrNull.toString() //TODO apply decimal format
@@ -28,7 +28,7 @@ private fun Output.writeValue(value: Value, width: Int, left: Boolean = true) {
     } else {
         str.padStart(width)
     }
-    writeUtf8String(padded)
+    writeString(padded)
 }
 
 public val ColumnHeader<Value>.textWidth: Int
@@ -44,16 +44,16 @@ public val ColumnHeader<Value>.textWidth: Int
 /**
  * Write TSV (or in more general case use [separator]) rows without header to the output.
  */
-public fun Output.writeTextRows(rows: Rows<Value>, separator: String = "\t") {
+public fun Sink.writeTextRows(rows: Rows<Value>, separator: String = "\t") {
     val widths: List<Int> = rows.headers.map {
         it.textWidth
     }
     rows.rowSequence().forEach { row ->
         rows.headers.forEachIndexed { index, columnHeader ->
             writeValue(row[columnHeader], widths[index])
-            writeUtf8String(separator)
+            writeString(separator)
         }
 //        appendLine()
-        writeUtf8String("\r\n")
+        writeString("\r\n")
     }
 }

@@ -38,12 +38,14 @@ public class ColumnTableBuilder<T>(
     /**
      * Add or replace existing column with given header. Column is always added to the end of the table
      */
+    @Deprecated("use column(header, data)", replaceWith = ReplaceWith("column(header, data)"))
     public operator fun <R : T> Collection<Column<T>>.set(header: ColumnHeader<R>, data: Iterable<R>) {
         removeColumn(header.name)
         val column = ListColumn(header.name, data.toList(), header.type, header.meta)
         addColumn(column)
     }
 
+    @Deprecated("use fill(this, index, dataBuilder)", ReplaceWith("fill(this, index, dataBuilder)"))
     public fun <R : T> ColumnHeader<R>.fill(index: Int? = null, dataBuilder: (Int) -> R?): Column<R> {
         //TODO use specialized columns if possible
         val column = ListColumn(this, rowsSize, dataBuilder)
@@ -81,6 +83,34 @@ public inline fun <T, reified R : T> ColumnTableBuilder<T>.column(
     index: Int? = null,
     noinline expression: (Row<T>) -> R,
 ): Unit = column(ColumnHeader<R>(name), index, expression)
+
+/**
+ * Adds or replaces a column in the ColumnTableBuilder with the given header and data.
+ *
+ * @param header the header of the column to be added or replaced
+ * @param data the data for the column
+ */
+public fun <T, R : T> ColumnTableBuilder<T>.column(header: ColumnHeader<R>, data: Iterable<R>) {
+    removeColumn(header.name)
+    val column = ListColumn(header.name, data.toList(), header.type, header.meta)
+    addColumn(column)
+}
+
+/**
+ * Adds a column with the given header to the table. Optionally, the column can be inserted at a specific index.
+ * The column is filled with data using the provided data builder function.
+ *
+ * @param header The header of the column to be added.
+ * @param index The index at which the column should be inserted. If null, the column is added to the end of the table.
+ * @param dataBuilder A function that takes an index and returns the data to fill the column at that index.
+ * @return The newly added column.
+ */
+public fun <T, R : T> ColumnTableBuilder<T>.fill(header: ColumnHeader<R>, index: Int? = null, dataBuilder: (Int) -> R?): Column<R> {
+    //TODO use specialized columns if possible
+    val column = ListColumn(header, rowsSize, dataBuilder)
+    addColumn(column, index)
+    return column
+}
 
 /**
  * Shallow copy table to a new [ColumnTableBuilder]

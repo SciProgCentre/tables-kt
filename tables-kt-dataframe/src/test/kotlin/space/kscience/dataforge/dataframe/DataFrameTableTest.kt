@@ -20,11 +20,11 @@ internal class DataFrameTableTest {
 
         val table = ColumnTable<Double?>(100) {
             //filling column with double values equal to index
-            x.fill { it.toDouble() }
+            fill(x) { it.toDouble() }
             //virtual column filled with x^2
-            columns[x2] = { it[x].pow(2) }
+            column(x2) { it[x].pow(2) }
             //Fixed column filled with x^2 + 1
-            columns[y] = x2.values.map { it?.plus(1) }
+            column(y, x2.values.map { it?.plus(1) })
         }
 
         val dataFrame = table.toDataFrame()

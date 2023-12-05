@@ -10,8 +10,8 @@ class ColumnTableTest {
             val a by ColumnHeader.typed<Double>()
             val b by ColumnHeader.typed<Double>()
 
-            a.fill { it.toDouble() }
-            columns[b] = List(100) { it.toDouble() }
+            fill(a) { it.toDouble() }
+            column(b, List(100) { it.toDouble() })
             column("c") { it[a] - it[b] }
         }
         assertTrue {

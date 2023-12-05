@@ -11,10 +11,10 @@ description = "A lightweight multiplatform library for tables"
 
 allprojects {
     group = "space.kscience"
-    version = "0.2.1"
+    version = "0.3.0"
 }
 
-val dataforgeVersion = "0.6.2"
+val dataforgeVersion = "0.7.1"
 
 kscience{
     jvm()
