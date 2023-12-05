@@ -2,8 +2,8 @@ package space.kscience.tables.csv
 
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
-import space.kscience.dataforge.values.Value
-import space.kscience.dataforge.values.ValueType
+import space.kscience.dataforge.meta.Value
+import space.kscience.dataforge.meta.ValueType
 import space.kscience.tables.ColumnHeader
 import space.kscience.tables.RowTable
 import space.kscience.tables.Rows

@@ -1,7 +1,7 @@
 package space.kscience.tables
 
 import space.kscience.dataforge.meta.Meta
-import space.kscience.dataforge.values.Value
+import space.kscience.dataforge.meta.Value
 import kotlin.jvm.JvmName
 import kotlin.reflect.KType
 import kotlin.reflect.typeOf
@@ -52,7 +52,6 @@ public class SpreadSheetTable<T>(
     }
 }
 
-@Suppress("FunctionName")
 public inline fun <reified T> SpreadSheetTable(builder: SpreadSheetTable<T>.() -> Unit): SpreadSheetTable<T> =
     SpreadSheetTable<T>(typeOf<T>()).apply(builder)
 
@@ -67,11 +66,11 @@ public operator fun SpreadSheetTable<Value>.set(row: Int, column: ColumnHeader<V
  */
 public operator fun <T> SpreadSheetTable<T>.set(column: ColumnHeader<T>, values: List<T>) {
     columnDefs[column.name] = column
-    set(column.name, values)
+    values.forEachIndexed { index, value -> set(index, column, value) }
 }
 
 @JvmName("setValues")
 public operator fun SpreadSheetTable<Value>.set(column: ColumnHeader<Value>, values: List<Any?>) {
     columnDefs[column.name] = column
-    set(column.name, values.map { Value.of(it) })
+    values.forEachIndexed { index, value -> set(index, column, value) }
 }

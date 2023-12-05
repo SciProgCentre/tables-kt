@@ -1,9 +1,9 @@
 plugins {
-    id("ru.mipt.npm.gradle.jvm")
+    id("space.kscience.gradle.jvm")
     `maven-publish`
 }
 
-val dataFrameVersion = "0.8.0-dev-877"
+val dataFrameVersion = "0.12.0"
 
 dependencies {
     api("org.jetbrains.kotlinx:dataframe:$dataFrameVersion")
@@ -11,5 +11,5 @@ dependencies {
 }
 
 readme {
-    maturity = ru.mipt.npm.gradle.Maturity.PROTOTYPE
+    maturity = space.kscience.gradle.Maturity.PROTOTYPE
 }

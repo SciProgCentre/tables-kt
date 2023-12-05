@@ -36,6 +36,8 @@ internal class ColumnAsDataColumn<T>(
         return ColumnAsDataColumn<T>(column, newIndices, nameOverride)
     }
 
+    override fun contains(value: T): Boolean = indexList.any { column.getOrNull(it) == value }
+
     override fun countDistinct(): Int = distinct().count()
 
     override fun defaultValue(): T? = null
@@ -58,7 +60,7 @@ internal class ColumnAsDataColumn<T>(
     override fun name(): String = nameOverride
 }
 
-internal fun <T> TableColumn<T>.toDataColumn(): AnyCol = if (this is DataColumnAsColumn) {
+internal fun <T> TableColumn<T>.asDataColumn(): AnyCol = if (this is DataColumnAsColumn) {
     this.column
 } else {
     ColumnAsDataColumn(this)
@@ -68,4 +70,4 @@ internal fun <T> TableColumn<T>.toDataColumn(): AnyCol = if (this is DataColumnA
 
 @Suppress("UNCHECKED_CAST")
 public fun <T> Table<T>.toDataFrame(): DataFrame<T> =
-    dataFrameOf(columns.map { it.toDataColumn() }) as DataFrame<T>
+    dataFrameOf(columns.map { it.asDataColumn() }) as DataFrame<T>

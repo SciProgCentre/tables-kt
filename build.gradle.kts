@@ -1,7 +1,9 @@
+import space.kscience.gradle.useApache2Licence
+import space.kscience.gradle.useSPCTeam
+
 plugins {
-    id("ru.mipt.npm.gradle.project")
-    id("ru.mipt.npm.gradle.mpp")
-    id("ru.mipt.npm.gradle.native")
+    id("space.kscience.gradle.project")
+    id("space.kscience.gradle.mpp")
     `maven-publish`
 }
 
@@ -9,29 +11,31 @@ description = "A lightweight multiplatform library for tables"
 
 allprojects {
     group = "space.kscience"
-    version = "0.1.5"
+    version = "0.3.0"
 }
 
-val dataforgeVersion = "0.5.2"
+val dataforgeVersion = "0.7.1"
 
-kotlin {
-    sourceSets {
-        commonMain {
-            dependencies {
-                api("space.kscience:dataforge-io:$dataforgeVersion")
-            }
-        }
+kscience{
+    jvm()
+    js()
+    native()
+    useContextReceivers()
+    dependencies {
+        api("space.kscience:dataforge-io:$dataforgeVersion")
     }
 }
 
 ksciencePublish {
-    github("tables-kt")
-    space("https://maven.pkg.jetbrains.space/mipt-npm/p/sci/maven")
-    //sonatype()
+    pom("https://github.com/SciProgCentre/tables-kt") {
+        useApache2Licence()
+        useSPCTeam()
+    }
+    repository("spc","https://maven.sciprog.center/kscience")
+    sonatype("https://oss.sonatype.org")
 }
 
-
 readme {
-    maturity = ru.mipt.npm.gradle.Maturity.EXPERIMENTAL
+    maturity = space.kscience.gradle.Maturity.EXPERIMENTAL
     propertyByTemplate("artifact", rootProject.file("docs/ARTIFACT-TEMPLATE.md"))
 }

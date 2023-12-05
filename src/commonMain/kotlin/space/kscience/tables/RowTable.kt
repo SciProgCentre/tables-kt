@@ -2,8 +2,8 @@ package space.kscience.tables
 
 import space.kscience.dataforge.meta.Meta
 import space.kscience.dataforge.meta.MetaRepr
-import space.kscience.dataforge.values.Value
-import space.kscience.dataforge.values.getValue
+import space.kscience.dataforge.meta.Value
+import space.kscience.dataforge.meta.getValue
 import kotlin.jvm.JvmInline
 import kotlin.reflect.KType
 

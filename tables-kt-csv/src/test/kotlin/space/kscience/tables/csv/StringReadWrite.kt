@@ -3,8 +3,8 @@ package space.kscience.tables.csv
 import org.apache.commons.csv.CSVFormat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import space.kscience.dataforge.values.Value
-import space.kscience.dataforge.values.string
+import space.kscience.dataforge.meta.Value
+import space.kscience.dataforge.meta.string
 import space.kscience.tables.RowTable
 import space.kscience.tables.Table
 import space.kscience.tables.get

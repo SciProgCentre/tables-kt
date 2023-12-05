@@ -1,12 +1,12 @@
 package space.kscience.tables.io
 
-import io.ktor.utils.io.core.readBytes
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.toList
+import kotlinx.io.readByteArray
+import kotlinx.io.readLine
 import space.kscience.dataforge.io.Binary
-import space.kscience.dataforge.io.readSafeUtf8Line
-import space.kscience.dataforge.values.Value
+import space.kscience.dataforge.meta.Value
 import space.kscience.tables.*
 
 /**
@@ -24,11 +24,9 @@ internal class TextTable(
 
     override fun rowSequence(): Sequence<Row<Value>> = TextRows(headers, binary).rowSequence()
 
-    private fun readAt(offset: Int): Row<Value> {
-        return binary.read(offset) {
-            val line = readSafeUtf8Line()
-            return@read line.readRow(headers)
-        }
+    private fun readAt(offset: Int): Row<Value> = binary.read(offset) {
+        val line = readLine() ?: error("Line not found")
+        return@read line.readRow(headers)
     }
 
     override fun getOrNull(row: Int, column: String): Value? {
@@ -43,7 +41,7 @@ internal class TextTable(
  */
 private fun Binary.lineIndexFlow(): Flow<Int> = read {
     //TODO replace by line reader
-    val text = readBytes().decodeToString()
+    val text = readByteArray().decodeToString()
     text.lineSequence()
         .map { it.trim() }
         .filter { it.isNotEmpty() }

@@ -2,11 +2,11 @@ package space.kscience.tables.io
 
 import kotlinx.coroutines.runBlocking
 import space.kscience.dataforge.io.toByteArray
+import space.kscience.dataforge.meta.Value
+import space.kscience.dataforge.meta.ValueType
+import space.kscience.dataforge.meta.int
+import space.kscience.dataforge.meta.string
 import space.kscience.dataforge.misc.DFExperimental
-import space.kscience.dataforge.values.Value
-import space.kscience.dataforge.values.ValueType
-import space.kscience.dataforge.values.int
-import space.kscience.dataforge.values.string
 import space.kscience.tables.RowTable
 import space.kscience.tables.column
 import space.kscience.tables.valueRow

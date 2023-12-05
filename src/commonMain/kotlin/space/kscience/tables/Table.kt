@@ -46,6 +46,11 @@ public interface Column<out T> : ColumnHeader<T> {
 public operator fun <T> Column<T>.get(index: Int): T =
     getOrNull(index) ?: error("Element with index $index not found in $this")
 
+public inline fun <T> Column<T>.contentEquals(
+    other: Column<T>,
+    criterion: (l: T?, r: T?) -> Boolean = { l, r -> l == r },
+): Boolean = this.indices == other.indices && indices.all { criterion(getOrNull(it), other.getOrNull(it)) }
+
 public val Column<*>.indices: IntRange get() = (0 until size)
 
 public operator fun <T> Column<T>.iterator(): Iterator<T?> = iterator {
@@ -60,7 +65,7 @@ public fun <T> Column<T>.sequence(): Sequence<T?> = sequence {
     }
 }
 
-public fun <T> Column<T>.listValues(): List<T?> = if(this is ListColumn){
+public fun <T> Column<T>.listValues(): List<T?> = if (this is ListColumn) {
     this.data
 } else {
     sequence().toList()

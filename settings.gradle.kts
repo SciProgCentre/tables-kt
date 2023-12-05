@@ -1,7 +1,6 @@
 rootProject.name = "tables-kt"
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-enableFeaturePreview("VERSION_CATALOGS")
 
 pluginManagement {
     val toolsVersion: String by extra
@@ -13,11 +12,11 @@ pluginManagement {
     }
 
     plugins {
-        id("ru.mipt.npm.gradle.project") version toolsVersion
-        id("ru.mipt.npm.gradle.mpp") version toolsVersion
-        id("ru.mipt.npm.gradle.native") version toolsVersion
-        id("ru.mipt.npm.gradle.jvm") version toolsVersion
-        id("ru.mipt.npm.gradle.js") version toolsVersion
+        id("space.kscience.gradle.project") version toolsVersion
+        id("space.kscience.gradle.mpp") version toolsVersion
+        id("space.kscience.gradle.native") version toolsVersion
+        id("space.kscience.gradle.jvm") version toolsVersion
+        id("space.kscience.gradle.js") version toolsVersion
     }
 }
 
@@ -31,8 +30,8 @@ dependencyResolutionManagement {
     }
 
     versionCatalogs {
-        create("npmlibs") {
-            from("ru.mipt.npm:version-catalog:$toolsVersion")
+        create("spcLibs") {
+            from("space.kscience:version-catalog:$toolsVersion")
         }
     }
 }
