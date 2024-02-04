@@ -1,16 +1,14 @@
 package space.kscience.tables.csv
 
-import org.apache.commons.csv.CSVFormat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import space.kscience.dataforge.meta.Value
-import space.kscience.dataforge.meta.string
 import space.kscience.tables.RowTable
 import space.kscience.tables.Table
 import space.kscience.tables.get
 import space.kscience.tables.valueRow
 
-internal class StringReadWrite{
+internal class StringReadWrite {
     val table = RowTable<Value> {
         val a by column<Value>()
         val b by column<Value>()
@@ -19,21 +17,20 @@ internal class StringReadWrite{
     }
 
     @Test
-    fun writeRead(){
-        val string = Table.writeStringAsCsv(table)
+    fun writeRead() {
+        val string = Table.writeCsvString(table)
         println(string)
-        val reconstructed = Table.readAsCsv(string)
+        val reconstructed = Table.readCsvString(string)
 
-        assertEquals("b2", reconstructed[1, "b"].string)
+        assertEquals("b2", reconstructed[1, "b"])
     }
 
     @Test
-    fun writeReadTsv(){
-        val format = CSVFormat.TDF
-        val string = Table.writeStringAsCsv(table, format)
+    fun writeReadTsv() {
+        val string = Table.writeCsvString(table, CsvFormats.tsvWriter)
         println(string)
-        val reconstructed = Table.readAsCsv(string,format)
+        val reconstructed = Table.readCsvString(string, CsvFormats.tsvReader)
 
-        assertEquals("b2", reconstructed[1, "b"].string)
+        assertEquals("b2", reconstructed[1, "b"])
     }
 }

@@ -6,7 +6,7 @@
 
 ## Artifact:
 
-The Maven coordinates of this project are `space.kscience:tables-kt-csv:0.2.1`.
+The Maven coordinates of this project are `space.kscience:tables-kt-csv:0.3.0`.
 
 **Gradle Kotlin DSL:**
 ```kotlin
@@ -18,6 +18,6 @@ repositories {
 }
 
 dependencies {
-    implementation("space.kscience:tables-kt-csv:0.2.1")
+    implementation("space.kscience:tables-kt-csv:0.3.0")
 }
 ```
