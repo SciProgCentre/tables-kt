@@ -11,15 +11,16 @@ description = "A lightweight multiplatform library for tables"
 
 allprojects {
     group = "space.kscience"
-    version = "0.3.0"
+    version = "0.4.0"
 }
 
-val dataforgeVersion = "0.7.1"
+val dataforgeVersion = "0.8.0"
 
 kscience{
     jvm()
     js()
     native()
+    wasm()
     useContextReceivers()
     dependencies {
         api("space.kscience:dataforge-io:$dataforgeVersion")

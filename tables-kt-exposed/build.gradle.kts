@@ -3,7 +3,7 @@ plugins {
     `maven-publish`
 }
 
-val exposedVersion = "0.41.1"
+val exposedVersion = "0.47.0"
 
 dependencies {
     api("org.jetbrains.exposed:exposed-core:$exposedVersion")

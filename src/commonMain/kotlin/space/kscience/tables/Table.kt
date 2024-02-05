@@ -7,10 +7,20 @@ import kotlinx.coroutines.flow.Flow
  * Each row must contain at least all the fields mentioned in [headers].
  */
 public interface Rows<out T> {
+    /**
+     * An ordered list of headers that *must* be present.
+     */
     public val headers: TableHeader<T>
+
+    /**
+     * A lazy sequence of rows.
+     */
     public fun rowSequence(): Sequence<Row<T>>
 }
 
+/**
+ * A basic abstraction for a table. The abstraction does not specify how the data is stored.
+ */
 public interface Table<out T> : Rows<T> {
     public fun getOrNull(row: Int, column: String): T?
     public val columns: Collection<Column<T>>
@@ -18,11 +28,7 @@ public interface Table<out T> : Rows<T> {
     public val rows: List<Row<T>>
     override fun rowSequence(): Sequence<Row<T>> = rows.asSequence()
 
-    /**
-     * Apply typed query to this table and return lazy [Flow] of resulting rows. The flow could be empty.
-     */
-    //fun select(query: Any): Flow<Row> = error("Query of type ${query::class} is not supported by this table")
-    public companion object {}
+    public companion object
 }
 
 public operator fun <T> Table<T>.get(row: Int, column: String): T =
@@ -71,13 +77,26 @@ public fun <T> Column<T>.listValues(): List<T?> = if (this is ListColumn) {
     sequence().toList()
 }
 
-
+/**
+ * A common abstraction for a row of data. Fields could be accessed by its name
+ */
 public interface Row<out T> {
+    /**
+     * Get a value in [Row] by name or return null if value is missing.
+     *
+     * Note that null value for nullable [T] is indistinguishable from missing value.
+     */
     public fun getOrNull(column: String): T?
 }
 
-public operator fun <T> Row<T>.get(column: String): T =
+/**
+ * Get a [Row] value or throw error if it is null
+ */
+public operator fun <T: Any> Row<T>.get(column: String): T =
     getOrNull(column) ?: error("Element with column name $column not found in $this")
 
-public inline operator fun <T, reified R : T> Row<T>.get(column: ColumnHeader<R>): R = get(column.name) as? R
-    ?: error("Type conversion to ${R::class} failed for ${get(column.name)}")
+/**
+ * Get a value by a column header and cast it if possible to a column type
+ */
+public inline operator fun <T, reified R : T> Row<T>.get(column: ColumnHeader<R>): R = getOrNull(column.name) as? R
+    ?: error("Type conversion to ${R::class} failed for ${getOrNull(column.name)}")

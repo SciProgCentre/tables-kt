@@ -9,9 +9,16 @@ public typealias TableHeader<C> = List<ColumnHeader<C>>
 
 public typealias ValueTableHeader = List<ColumnHeader<Value>>
 
+/**
+ * A header for a column including [name], column [type] and column metadata
+ */
 public interface ColumnHeader<out T> {
     public val name: String
     public val type: KType
+
+    /**
+     * Column metadata. Common structure defined by [ColumnScheme]
+     */
     public val meta: Meta
 
     public companion object {
@@ -24,6 +31,9 @@ public interface ColumnHeader<out T> {
             ColumnHeader(property.name, builder)
         }
 
+        /**
+         * A delegate for a [Value] based column header
+         */
         public fun value(
             valueType: ValueType = ValueType.STRING,
             builder: ValueColumnScheme.() -> Unit = {},
@@ -38,6 +48,9 @@ public inline fun <reified T> ColumnHeader(
     builder: ColumnScheme.() -> Unit = {},
 ): ColumnHeader<T> = SimpleColumnHeader(name, typeOf<T>(), ColumnScheme(builder).meta)
 
+/**
+ * Create a [Value]-typed column header
+ */
 public fun ColumnHeader(
     name: String,
     valueType: ValueType,

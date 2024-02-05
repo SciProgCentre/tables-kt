@@ -42,16 +42,16 @@ public val ColumnHeader<Value>.textWidth: Int
     }
 
 /**
- * Write TSV (or in more general case use [separator]) rows without header to the output.
+ * Write TSV (or in more general case use [delimiter]) rows without header to the output.
  */
-public fun Sink.writeTextRows(rows: Rows<Value>, separator: String = "\t") {
+public fun Sink.writeTextRows(rows: Rows<Value>, delimiter: String = "\t") {
     val widths: List<Int> = rows.headers.map {
         it.textWidth
     }
     rows.rowSequence().forEach { row ->
         rows.headers.forEachIndexed { index, columnHeader ->
             writeValue(row[columnHeader], widths[index])
-            writeString(separator)
+            writeString(delimiter)
         }
 //        appendLine()
         writeString("\r\n")

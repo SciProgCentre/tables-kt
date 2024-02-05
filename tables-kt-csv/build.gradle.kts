@@ -1,11 +1,15 @@
 plugins {
-    id("space.kscience.gradle.jvm")
+    id("space.kscience.gradle.mpp")
     `maven-publish`
 }
 
-dependencies {
-    api(rootProject)
-    api("org.apache.commons:commons-csv:1.10.0")
+kscience {
+    jvm()
+    js()
+    commonMain {
+        api(rootProject)
+        api("com.github.doyaaaaaken:kotlin-csv:1.9.3")
+    }
 }
 
 readme {

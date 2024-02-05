@@ -14,7 +14,7 @@ import kotlin.reflect.typeOf
 /**
  * Convert given [Table] to a TSV-based envelope, encoding header in Meta
  */
-public suspend fun Table<Value>.toTextEnvelope(): Envelope = Envelope {
+public fun Table<Value>.toTextEnvelope(): Envelope = Envelope {
     meta {
         headers.forEachIndexed { index, columnHeader ->
             set(NameToken("column", index.toString()), Meta {
@@ -37,11 +37,11 @@ public suspend fun Table<Value>.toTextEnvelope(): Envelope = Envelope {
 /**
  * Read TSV rows from given envelope
  */
-public fun Envelope.readTextRows(): Rows<Value> {
+public fun Envelope.readTextRows(delimiter: Regex = "\\s+".toRegex()): Rows<Value> {
     val header = meta.getIndexed("column".asName())
         .entries.sortedBy { it.key?.toInt() }
         .map { (_, item) ->
             SimpleColumnHeader<Value>(item["name"].string!!, typeOf<Value>(), item["meta"] ?: Meta.EMPTY)
         }
-    return TextRows(header, data ?: Binary.EMPTY)
+    return TextRows(header, data ?: Binary.EMPTY, delimiter)
 }

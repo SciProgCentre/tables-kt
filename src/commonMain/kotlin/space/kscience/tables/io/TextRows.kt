@@ -10,10 +10,10 @@ import space.kscience.tables.Rows
 import space.kscience.tables.ValueTableHeader
 
 /**
- * Read a lin as a fixed width [Row]
+ * Read a line as a fixed width [Row]
  */
-internal fun String.readRow(header: ValueTableHeader): Row<Value> {
-    val values = trim().split("\\s+".toRegex()).map { it.lazyParseValue() }
+internal fun String.readRow(header: ValueTableHeader, delimiter: Regex): Row<Value> {
+    val values = trim().split(delimiter).map { it.lazyParseValue() }
 
     if (values.size == header.size) {
         val map = header.map { it.name }.zip(values).toMap()
@@ -26,14 +26,18 @@ internal fun String.readRow(header: ValueTableHeader): Row<Value> {
 /**
  * Finite or infinite [Rows] created from a fixed width text binary
  */
-internal class TextRows(override val headers: ValueTableHeader, private val binary: Binary) : Rows<Value> {
+internal class TextRows(
+    override val headers: ValueTableHeader,
+    private val binary: Binary,
+    private val delimiter: Regex,
+) : Rows<Value> {
 
     override fun rowSequence(): Sequence<Row<Value>> = binary.read {
         val text = readByteArray().decodeToString()
         text.lineSequence()
             .map { it.trim() }
             .filter { it.isNotEmpty() }
-            .map { it.readRow(headers) }
+            .map { it.readRow(headers, delimiter) }
 //        flow {
 //            do {
 //                val line = readUTF8Line()

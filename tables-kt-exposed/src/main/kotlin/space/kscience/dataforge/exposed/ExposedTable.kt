@@ -51,7 +51,7 @@ public class ExposedColumn<T : Any>(
      * Acquires the value of this column in the row [index].
      */
     public override fun getOrNull(index: Int): T? = transaction(db) {
-        sqlTable.select { sqlTable.id eq index + 1 }.firstOrNull()?.getOrNull(sqlColumn)
+        sqlTable.selectAll().where { sqlTable.id eq index + 1 }.firstOrNull()?.getOrNull(sqlColumn)
     }
 }
 
@@ -115,7 +115,7 @@ public class ExposedTable<T : Any>(
         val sqlColumn: SqlColumn<T> = sqlTable.columns.find { it.name == column } as SqlColumn<T>?
             ?: return@transaction null
 
-        sqlTable.select { sqlTable.id eq row + 1 }.firstOrNull()?.getOrNull(sqlColumn)
+        sqlTable.selectAll().where { sqlTable.id eq row + 1 }.firstOrNull()?.getOrNull(sqlColumn)
     }
 }
 
