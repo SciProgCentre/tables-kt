@@ -6,6 +6,9 @@ import space.kscience.dataforge.meta.Meta
 import kotlin.reflect.KType
 import kotlin.reflect.typeOf
 
+/**
+ * A column with data represented as [List]. Could have missing data
+ */
 public class ListColumn<T>(
     override val name: String,
     public val data: List<T?>,

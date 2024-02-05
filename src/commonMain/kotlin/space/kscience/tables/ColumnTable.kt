@@ -1,6 +1,8 @@
 package space.kscience.tables
 
 /**
+ * A table based on column-wise data representation.
+ *
  * @param T boundary type for all columns in the table
  */
 public open class ColumnTable<out T>(final override val columns: Collection<Column<T>>) : Table<T> {
@@ -34,7 +36,7 @@ internal class VirtualRow<T>(val table: Table<T>, val index: Int) : Row<T> {
 }
 
 /**
- * Convert table to a column-based representation.
+ * Convert table to a column-based representation or return itself if it is already column-based.
  * This method is used only for performance.
  *
  * The resulting table does not in general follow changes of the initial table.

@@ -36,23 +36,8 @@ public class ColumnTableBuilder<T>(
     }
 
     /**
-     * Add or replace existing column with given header. Column is always added to the end of the table
+     * Get or set values for given column. The size of column must be the same as table [rowsNum]
      */
-    @Deprecated("use column(header, data)", replaceWith = ReplaceWith("column(header, data)"))
-    public operator fun <R : T> Collection<Column<T>>.set(header: ColumnHeader<R>, data: Iterable<R>) {
-        removeColumn(header.name)
-        val column = ListColumn(header.name, data.toList(), header.type, header.meta)
-        addColumn(column)
-    }
-
-    @Deprecated("use fill(this, index, dataBuilder)", ReplaceWith("fill(this, index, dataBuilder)"))
-    public fun <R : T> ColumnHeader<R>.fill(index: Int? = null, dataBuilder: (Int) -> R?): Column<R> {
-        //TODO use specialized columns if possible
-        val column = ListColumn(this, rowsSize, dataBuilder)
-        addColumn(column, index)
-        return column
-    }
-
     public var <R : T> ColumnHeader<R>.values: Collection<R?>
         get() = columns[this].listValues()
         set(value) {
@@ -65,7 +50,7 @@ public class ColumnTableBuilder<T>(
 /**
  * Set or replace column using given [expression]
  */
-public fun <T, R : T> ColumnTableBuilder<T>.column(
+public fun <T, R : T> ColumnTableBuilder<T>.transform(
     header: ColumnHeader<R>,
     index: Int? = null,
     expression: (Row<T>) -> R,
@@ -78,11 +63,11 @@ public fun <T, R : T> ColumnTableBuilder<T>.column(
 /**
  * Set or replace column using column name
  */
-public inline fun <T, reified R : T> ColumnTableBuilder<T>.column(
+public inline fun <T, reified R : T> ColumnTableBuilder<T>.transform(
     name: String,
     index: Int? = null,
     noinline expression: (Row<T>) -> R,
-): Unit = column(ColumnHeader<R>(name), index, expression)
+): Unit = transform(ColumnHeader<R>(name), index, expression)
 
 /**
  * Adds or replaces a column in the ColumnTableBuilder with the given header and data.

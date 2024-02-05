@@ -22,7 +22,7 @@ internal class DataFrameTableTest {
             //filling column with double values equal to index
             fill(x) { it.toDouble() }
             //virtual column filled with x^2
-            column(x2) { it[x].pow(2) }
+            transform(x2) { it[x].pow(2) }
             //Fixed column filled with x^2 + 1
             column(y, x2.values.map { it?.plus(1) })
         }

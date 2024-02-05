@@ -16,17 +16,18 @@ internal class TextTable(
     override val headers: ValueTableHeader,
     private val binary: Binary,
     val index: List<Int>,
+    val delimiter: Regex = "\\s+".toRegex(),
 ) : Table<Value> {
 
     override val columns: Collection<Column<Value>> get() = headers.map { RowTableColumn(this, it) }
 
     override val rows: List<Row<Value>> get() = index.map { readAt(it) }
 
-    override fun rowSequence(): Sequence<Row<Value>> = TextRows(headers, binary).rowSequence()
+    override fun rowSequence(): Sequence<Row<Value>> = TextRows(headers, binary, delimiter).rowSequence()
 
     private fun readAt(offset: Int): Row<Value> = binary.read(offset) {
         val line = readLine() ?: error("Line not found")
-        return@read line.readRow(headers)
+        return@read line.readRow(headers, delimiter)
     }
 
     override fun getOrNull(row: Int, column: String): Value? {
@@ -70,7 +71,7 @@ private suspend fun Binary.buildRowIndex(): List<Int> = lineIndexFlow().toList()
  * This method does not read the whole table into memory. Instead, it reads it ones and saves line offset index. Then
  * it reads specific lines on-demand.
  */
-public suspend fun Binary.readTextTable(header: ValueTableHeader): Table<Value>{
+public suspend fun Binary.readTextTable(header: ValueTableHeader): Table<Value> {
     val index = buildRowIndex()
     return TextTable(header, this, index)
 }
