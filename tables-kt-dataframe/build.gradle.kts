@@ -3,7 +3,7 @@ plugins {
     `maven-publish`
 }
 
-val dataFrameVersion = "0.12.1"
+val dataFrameVersion = "0.13.1"
 
 dependencies {
     api("org.jetbrains.kotlinx:dataframe:$dataFrameVersion")
