@@ -1,5 +1,7 @@
 [![JetBrains Research](https://jb.gg/badges/research.svg)](https://confluence.jetbrains.com/display/ALL/JetBrains+on+GitHub)
 
+**Important**: Tables-kt is now developed and distributed as part of DataForge project (back to DataForge-tables). See [DataForge repo](https://github.com/SciProgCentre/dataforge-core/tree/master/tables-kt)
+
 # Tables.kt
 
 Tables.kt is a lightweight Kotlin-Multiplatform library to work with tables of any origin. It is **not** intended as an alternative to [DataFrame](https://github.com/Kotlin/dataframe) library. On the contrary, you can use it together with the [provided module](tables-lt-dataframe). The aim of this library to provide an API for a various tables and row lists.
