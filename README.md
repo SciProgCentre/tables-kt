@@ -1,6 +1,8 @@
 [![JetBrains Research](https://jb.gg/badges/research.svg)](https://confluence.jetbrains.com/display/ALL/JetBrains+on+GitHub)
 
+---
 **Important**: Tables-kt is now developed and distributed as part of DataForge project (back to DataForge-tables). See [DataForge repo](https://github.com/SciProgCentre/dataforge-core/tree/master/tables-kt)
+---
 
 # Tables.kt
 
